@@ -393,14 +393,15 @@ a{color:inherit;text-decoration:none}
   color:var(--ink);transition:opacity .2s}
 .seg button[aria-pressed="false"]{opacity:.6}
 
-.amount{display:flex;align-items:baseline;justify-content:center;gap:6px;padding:16px 0 18px}
+.amount{display:block;padding:16px 0 18px}
+/* Поле во всю ширину и текст по центру. Раньше ширина вычислялась по содержимому —
+   и промах в один пиксель срезал последний знак. Теперь обрезать нечего. */
 .amount input{
-  border:0;outline:0;background:none;font:inherit;text-align:right;
-  font-size:clamp(2.4rem,9vw,3.2rem);font-weight:600;letter-spacing:-.03em;line-height:1;
-  /* ширину ставит замер в коде: по содержимому, иначе пара «сумма ₽» уезжает вбок */
-  width:auto;min-width:2ch;max-width:76%;color:var(--ink);font-variant-numeric:tabular-nums;
+  display:block;width:100%;border:0;outline:0;background:none;text-align:center;
+  font:inherit;font-size:clamp(1.85rem,8.4vw,3.1rem);font-weight:600;letter-spacing:-.03em;
+  line-height:1.12;color:var(--ink);font-variant-numeric:tabular-nums;
 }
-.amount .cur{font-size:clamp(1.7rem,6vw,2.2rem);font-weight:500;color:var(--ink-3);letter-spacing:-.02em}
+.amount input.long{font-size:clamp(1.5rem,6.2vw,2.3rem)}   /* длинная сумма набирается мельче */
 .quick{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
 .quick button{padding:8px 15px;border-radius:980px;background:var(--paper-2);font-size:.9rem;letter-spacing:-.008em;
   transition:background .2s ease,transform .18s cubic-bezier(.2,.9,.25,1)}
@@ -431,9 +432,18 @@ a{color:inherit;text-decoration:none}
 
 .page{display:none}
 .page.on{display:block;animation:pgIn .62s cubic-bezier(.2,.9,.25,1)}
+/* до выполнения основного скрипта нужную страницу выбирает атрибут на <html>:
+   иначе браузер успевает нарисовать главную, и она мелькает при заходе на Садаку */
+html[data-page="home"] #p-home,
+html[data-page="sadaka"] #p-sadaka{display:block}
 @keyframes pgIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 /* ---------- телефоны ---------- */
+@media(max-width:640px){
+  /* шапка не липнет к верху: в мобильном браузере поверх своей панели это смотрится грязно */
+  .nav{position:static;background:var(--paper)}
+  .f-side{top:18px}
+}
 @media(max-width:430px){
   .t-hero{font-size:clamp(1.7rem,8.4vw,2.3rem);line-height:1.1;letter-spacing:-.02em}
   .sd-top .t-hero{font-size:clamp(1.6rem,7.6vw,2.1rem)}
@@ -489,7 +499,12 @@ a{color:inherit;text-decoration:none}
 </style>
 
 <!-- ================= ГЛАВНАЯ ================= -->
-<div class="page on" id="p-home">
+<script>
+/* Выполняется до разметки страниц: помечаем документ,
+   чтобы первый же нарисованный кадр был правильным. */
+document.documentElement.dataset.page = /sadaka/i.test(location.pathname) ? 'sadaka' : 'home';
+</script>
+<div class="page" id="p-home">
 
   <nav class="nav"><div class="wide nav-in">
     <span class="brand">
@@ -703,7 +718,7 @@ a{color:inherit;text-decoration:none}
     <div class="seg" id="seg"><span class="th" id="segTh"></span>
       <button aria-pressed="true">Разово</button><button aria-pressed="false">Каждый месяц</button>
     </div>
-    <div class="amount"><input id="amt" value="1 000" inputmode="numeric" aria-label="Сумма"><span class="cur">₽</span></div>
+    <div class="amount"><input id="amt" value="1 000 ₽" inputmode="numeric" aria-label="Сумма"></div>
     <div class="quick" id="quick">
       <button>500</button><button aria-pressed="true">1 000</button><button>3 000</button><button>10 000</button>
     </div>
@@ -926,6 +941,7 @@ function applyHash(){
   return false;
 }
 document.querySelectorAll('.page').forEach(p => p.classList.toggle('on', p.id === 'p-' + START));
+document.documentElement.removeAttribute('data-page');   // дальше страницами управляет класс
 if (!applyHash()){
   const h = document.querySelector('#p-' + START + ' [data-words]'); if (h) playWords(h);
 }
@@ -1209,38 +1225,29 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && sheetOpen) closeShe
 /* ---------- сумма ---------- */
 const amt = document.getElementById('amt'), pay = document.getElementById('shPay'), quick = document.getElementById('quick');
 
-/* Невидимая линейка: копируем начертание поля и меряем строку целиком.
-   Единица «ch» — это ширина нуля без учёта трекинга и узкого пробела-разделителя,
-   поэтому по ней поле выходило уже текста и последний знак обрезался. */
-const meter = document.createElement('span');
-meter.setAttribute('aria-hidden', 'true');
-meter.style.cssText = 'position:absolute;top:-9999px;left:-9999px;white-space:pre;pointer-events:none';
-document.body.appendChild(meter);
-function fitAmount(){
-  const cs = getComputedStyle(amt);
-  meter.style.fontFamily = cs.fontFamily;
-  meter.style.fontSize = cs.fontSize;
-  meter.style.fontWeight = cs.fontWeight;
-  meter.style.letterSpacing = cs.letterSpacing;
-  meter.style.fontVariantNumeric = cs.fontVariantNumeric;
-  meter.textContent = amt.value || '0';
-  // запас 10px: браузер округляет ширину вверх, и без него срезается краешек последнего знака
-  amt.style.width = Math.ceil(meter.getBoundingClientRect().width) + 10 + 'px';
+const digits = v => String(v).replace(/\D/g, '');
+const groups = v => (+digits(v) || 0).toLocaleString('ru-RU').replace(/,/g, ' ');
+/* Пока поле в фокусе — только цифры, чтобы курсор не спотыкался о знак.
+   Как отпустили — показываем «1 000 ₽». */
+function showAmount(focused){
+  const n = digits(amt.value);
+  amt.value = focused ? groups(n) : (n ? groups(n) + ' ₽' : '');
 }
 function sync(){
-  const v = +String(amt.value).replace(/\D/g,'') || 0;
-  fitAmount();   // ширина поля = реальная ширина текста, иначе последний знак срезается
+  const v = +digits(amt.value) || 0;
+  amt.classList.toggle('long', amt.value.length > 11);   // страховка для очень больших сумм
   const monthly = document.querySelector('#seg button:nth-of-type(2)')?.getAttribute('aria-pressed') === 'true';
   pay.textContent = v ? 'Помочь · ' + rub(v) + (monthly ? ' в месяц' : '') : 'Укажите сумму';
 }
 quick.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   quick.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
-  amt.value = (+b.textContent.replace(/\D/g,'')).toLocaleString('ru-RU').replace(/,/g,' ');
+  amt.value = groups(b.textContent) + ' ₽';
   sync();
 });
 amt.addEventListener('input', sync);
-addEventListener('resize', fitAmount);   // кегль резиновый — при смене ширины пересчитываем
+amt.addEventListener('focus', () => showAmount(true));
+amt.addEventListener('blur',  () => { showAmount(false); sync(); });
 sync();
 
 document.querySelectorAll('.chips').forEach(c => c.addEventListener('click', e => {

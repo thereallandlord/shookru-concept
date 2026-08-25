@@ -10,8 +10,10 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Садака — просто и прозрачно · Шукру">
 <meta property="og:description" content="112 сборов вместе с 39 фондами. У каждого сбора есть фонд, смета и срок. Комиссия сервиса — ноль.">
-<meta property="og:image" content="https://thereallandlord.github.io/shookru-concept/og.jpg">
+<meta property="og:image" content="https://thereallandlord.github.io/shookru-concept/og-sadaka.jpg">
 <meta property="og:url" content="https://thereallandlord.github.io/shookru-concept/sadaka.html">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
@@ -108,7 +110,6 @@ a{color:inherit;text-decoration:none}
   background:var(--accent);color:#fff;border-radius:980px;
   padding:12px 23px;font-size:1.02rem;font-weight:400;letter-spacing:-.01em;
   transition:background .2s ease,transform .18s cubic-bezier(.2,.9,.25,1);
-  will-change:transform;
 }
 .pill:hover{background:#0B8E6A}
 .pill.big{padding:14px 28px;font-size:1.1rem}
@@ -134,14 +135,15 @@ a{color:inherit;text-decoration:none}
 .hero .t-sub{margin-inline:auto;max-width:46ch}
 
 /* фото раскрывается по мере прокрутки — фирменный приём */
-.reveal-shot{margin-top:clamp(26px,3.4vw,48px);will-change:transform}
+.reveal-shot{margin-top:clamp(26px,3.4vw,48px)}
 .reveal-shot .frame{
   position:relative;overflow:hidden;margin-inline:auto;
-  border-radius:var(--rr,34px);
+  border-radius:24px;
   box-shadow:0 30px 80px -34px rgba(0,0,0,.45);
   transform:scale(var(--sc,.9));
   transform-origin:50% 0;
-  will-change:transform,border-radius;
+  will-change:transform;
+  contain:paint;
 }
 .reveal-shot .frame{height:clamp(320px,58vh,620px)}
 .reveal-shot img{position:absolute;inset:-9% 0;width:100%;height:118%;object-fit:cover;will-change:transform}
@@ -170,7 +172,7 @@ a{color:inherit;text-decoration:none}
 .dark .t-eyebrow{color:#2DD4A6}
 
 .stick{position:relative}
-.stick-in{position:sticky;top:0;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(60px,9vh,110px) 0}
+.stick-in{position:sticky;top:0;min-height:100svh;contain:layout;display:flex;flex-direction:column;justify-content:center;padding:clamp(60px,9vh,110px) 0}
 .pay-head{text-align:center;margin-bottom:clamp(40px,6vh,74px)}
 .pays{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.6vw,20px)}
 @media(max-width:900px){.pays{grid-template-columns:repeat(2,1fr);gap:12px}}
@@ -180,7 +182,7 @@ a{color:inherit;text-decoration:none}
   background:#1c1c1e;
   opacity:.3;
   transition:opacity .5s cubic-bezier(.2,.9,.25,1),background .5s ease;
-  will-change:transform,opacity;
+  contain:layout paint;
 }
 .pay.on{opacity:1;background:#242426}
 .pay .n{font-size:.78rem;color:#8e8e93;letter-spacing:-.004em}
@@ -210,7 +212,7 @@ a{color:inherit;text-decoration:none}
 }
 .rail-vp:not(.grabbing) .slide:hover{transform:translateY(-4px);box-shadow:0 4px 9px rgba(0,0,0,.06),0 22px 46px -22px rgba(0,0,0,.45)}
 .slide .ph{aspect-ratio:4/3;overflow:hidden;background:var(--paper-3)}
-.slide .ph img{width:112%;height:100%;object-fit:cover;pointer-events:none;margin-left:-6%;will-change:transform}
+.slide .ph img{width:112%;height:100%;object-fit:cover;pointer-events:none;margin-left:-6%}
 .slide .bd{padding:19px 20px 21px}
 .slide h4{font-size:1.06rem;font-weight:600;letter-spacing:-.016em;line-height:1.32;margin:0 0 5px;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.64em}
@@ -367,11 +369,13 @@ a{color:inherit;text-decoration:none}
 .sheet.dragging .grabber{cursor:grabbing}
 .grabber i{width:38px;height:5px;border-radius:3px;background:rgba(60,60,67,.3);display:block}
 .sh-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain}
+  overscroll-behavior:contain;
+  /* запас, чтобы подсветка поля при фокусе не срезалась краем прокрутки */
+  padding:2px 3px 6px;margin:-2px -3px 0}
 /* действие всегда на виду, даже когда содержимое прокручивается */
 .sh-foot{flex-shrink:0;padding-top:14px;position:relative}
-.sh-foot::before{content:"";position:absolute;left:0;right:0;top:-18px;height:18px;pointer-events:none;
-  background:linear-gradient(180deg,transparent,rgba(255,255,255,.9))}
+.sh-foot::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.75))}
 .niy{margin-bottom:4px}
 
 .sh-top{display:flex;gap:13px;align-items:flex-start;margin-bottom:20px}
@@ -392,7 +396,8 @@ a{color:inherit;text-decoration:none}
 .amount input{
   border:0;outline:0;background:none;font:inherit;text-align:right;
   font-size:clamp(2.4rem,9vw,3.2rem);font-weight:600;letter-spacing:-.03em;line-height:1;
-  width:min(64%,240px);color:var(--ink);font-variant-numeric:tabular-nums;
+  /* ширина по содержимому: иначе пустое место внутри поля сдвигает пару «сумма ₽» вбок */
+  width:5.2ch;max-width:78%;color:var(--ink);font-variant-numeric:tabular-nums;
 }
 .amount .cur{font-size:clamp(1.7rem,6vw,2.2rem);font-weight:500;color:var(--ink-3);letter-spacing:-.02em}
 .quick{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
@@ -410,8 +415,11 @@ a{color:inherit;text-decoration:none}
 .sh-note{display:flex;gap:7px;margin-top:13px;font-size:.78rem;color:var(--ink-3);line-height:1.45;letter-spacing:-.004em}
 .sh-note svg{flex-shrink:0;margin-top:2px;color:var(--accent)}
 
+@media(max-width:640px){.br-wide{display:none}}
+
 /* заголовок собирается по словам: подъём + расфокус уходит */
 .w{display:inline-block;opacity:0;transform:translateY(.38em);filter:blur(9px);will-change:transform,opacity,filter}
+.w.done{will-change:auto;filter:none}
 .w.in{opacity:1;transform:none;filter:blur(0);
   transition:opacity .72s cubic-bezier(.2,.9,.25,1),transform .82s cubic-bezier(.2,.9,.25,1),filter .62s cubic-bezier(.2,.9,.25,1)}
 
@@ -431,15 +439,15 @@ a{color:inherit;text-decoration:none}
   .t-sec{font-size:clamp(1.6rem,6.6vw,2.1rem)}
   .t-sub{font-size:1.02rem;line-height:1.42}
   .t-eyebrow{font-size:.98rem}
-  .hero{padding:16px 0 0}
+  .hero{padding:44px 0 0}
   .hero .t-sub{max-width:34ch}
-  .reveal-shot{margin-top:28px}
+  .reveal-shot{margin-top:36px}
   .reveal-shot .frame{height:clamp(240px,44vh,360px)}
   .figs{padding:64px 0}
   .rail-sec{padding:60px 0 44px}
   .facts{padding:54px 0}
   .fin{padding:64px 0}
-  .sd-top{padding:24px 0 14px}
+  .sd-top{padding:40px 0 18px}
   .sd-top .t-hero{font-size:clamp(1.5rem,6.7vw,2rem);line-height:1.12}
   .sd-sum{font-size:clamp(1.8rem,8.4vw,2.45rem);margin-top:18px}
   .sd-of{font-size:.95rem;margin-top:10px}
@@ -606,7 +614,7 @@ a{color:inherit;text-decoration:none}
   <section class="sd-top">
     <div class="wide">
       <p class="t-eyebrow up">Пожертвования</p>
-      <h1 class="t-hero" data-words>Просто.<br>Прозрачно.<br>С отчётом по каждому рублю.</h1>
+      <h1 class="t-hero" data-words>Просто. <br class="br-wide">Прозрачно.<br>С отчётом по каждому рублю.</h1>
       <div class="sd-sum up d2" data-count="115840011" data-suffix=" ₽">0 ₽</div>
       <p class="sd-of up d2">собрано на 112 сборов вместе с 39 фондами. Полная отчётность по каждому сбору.</p>
     </div>
@@ -822,7 +830,11 @@ function playWords(el){
   const ws = [...el.querySelectorAll('.w')];
   if (reduced){ ws.forEach(w => w.classList.add('in')); return; }
   ws.forEach((w,i) => w.style.transitionDelay = (i * 70) + 'ms');
-  const go = () => ws.forEach(w => w.classList.add('in'));
+  const go = () => ws.forEach(w => {
+    w.classList.add('in');
+    // как только слово доиграло — отпускаем слой композитора
+    w.addEventListener('transitionend', () => w.classList.add('done'), {once:true});
+  });
   requestAnimationFrame(() => requestAnimationFrame(go));
   // страховка: если кадры не идут (фоновая вкладка), текст всё равно покажется
   setTimeout(go, 1200);
@@ -957,7 +969,6 @@ function applyScroll(){
       const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height * .35)));
       const e = 1 - Math.pow(1 - p, 3);
       frame.style.setProperty('--sc', (.9 + .1 * e).toFixed(4));
-      frame.style.setProperty('--rr', (34 - 16 * e).toFixed(1) + 'px');
       // фото внутри рамки идёт медленнее самой рамки — отсюда глубина
       const q = Math.max(-1, Math.min(1, (r.top + r.height/2 - innerHeight/2) / innerHeight));
       heroImg.style.transform = 'translate3d(0,' + (q * 40).toFixed(1) + 'px,0)';
@@ -1198,6 +1209,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && sheetOpen) closeShe
 const amt = document.getElementById('amt'), pay = document.getElementById('shPay'), quick = document.getElementById('quick');
 function sync(){
   const v = +String(amt.value).replace(/\D/g,'') || 0;
+  amt.style.width = Math.max(3, String(amt.value).length + .4) + 'ch';   // пара «сумма ₽» остаётся по центру
   const monthly = document.querySelector('#seg button:nth-of-type(2)')?.getAttribute('aria-pressed') === 'true';
   pay.textContent = v ? 'Помочь · ' + rub(v) + (monthly ? ' в месяц' : '') : 'Укажите сумму';
 }

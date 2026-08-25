@@ -230,7 +230,7 @@ a{color:inherit;text-decoration:none}
 .sums b{white-space:nowrap;font-size:.97rem;font-weight:600;min-width:0}
 .sums span{margin-left:auto;text-align:right;white-space:nowrap;font-size:.79rem;color:var(--ink-3)}
 @media(max-width:1100px) and (min-width:1001px){.sums b{font-size:.92rem}.sums span{font-size:.76rem}}
-.slide .pill{margin-top:16px;width:100%}
+/* отступ и ширину задаёт ряд .act — старое правило сдвигало кнопку внутри ряда */
 .rail-hint{margin-top:18px;font-size:.83rem;color:var(--ink-3);letter-spacing:-.004em;text-align:center}
 
 /* ---------- строки-факты вместо карточек ---------- */
@@ -294,8 +294,10 @@ a{color:inherit;text-decoration:none}
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.64em}
 .tile .org{font-size:.83rem;color:var(--ink-3);margin:0 0 17px;letter-spacing:-.004em;
   display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
-.act{display:flex;gap:9px;margin-top:17px}
-.act .pill{flex:1}
+.act{display:flex;align-items:stretch;gap:9px;margin-top:17px}
+/* обе кнопки одной высоты: у круглой она была фиксированной, и ряд вставал криво */
+.act .pill{flex:1;height:46px;padding-block:0}
+.act .share{height:46px}
 .share{
   width:46px;height:46px;flex-shrink:0;border-radius:980px;background:var(--paper-3);color:var(--ink);
   display:grid;place-items:center;transition:background .2s ease,transform .18s cubic-bezier(.2,.9,.25,1);
@@ -1024,7 +1026,8 @@ addEventListener('visibilitychange', () => { if (!document.hidden){ ticking = fa
   if (!vp) return;
   const track = rail;
   const sp = new Spring(0, {response:.5, damping:1});
-  let x = 0, min = 0, dragging = false, id = null, grabX = 0, startX = 0, hist = [], raf = 0;
+  let x = 0, min = 0, dragging = false, id = null, grabX = 0, grabY = 0, startX = 0, hist = [], raf = 0;
+  let axis = null;   // null — направление ещё не ясно, 'x' — тянем ленту, 'y' — это прокрутка страницы
 
   const innerW = () => {
     const cs = getComputedStyle(vp);
@@ -1062,17 +1065,27 @@ addEventListener('visibilitychange', () => { if (!document.hidden){ ticking = fa
 
   vp.addEventListener('pointerdown', e => {
     if (e.target.closest('button')) return;      // кнопке «Помочь» не мешаем
-    dragging = true; id = e.pointerId;
-    vp.classList.add('grabbing');
+    dragging = true; id = e.pointerId; axis = null;
     cancelAnimationFrame(raf); raf = 0;
-    grabX = e.clientX; startX = x;               // помним, ГДЕ схватили
+    grabX = e.clientX; grabY = e.clientY; startX = x;   // помним, ГДЕ схватили
     hist = [{x:e.clientX, t:performance.now()}];
-    try { vp.setPointerCapture(id); } catch(_){}
+    // указатель НЕ захватываем сразу: пока не ясно направление, страница
+    // должна прокручиваться пальцем без нашего вмешательства
   });
   vp.addEventListener('pointermove', e => {
     if (!dragging || e.pointerId !== id) return;
-    if (Math.abs(e.clientX - grabX) > 6) railDragged = true;
-    let nx = startX + (e.clientX - grabX);       // 1:1 за пальцем
+    const dx = e.clientX - grabX, dy = e.clientY - grabY;
+
+    if (axis === null){
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;   // ещё не понятно — ничего не делаем
+      axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      railDragged = true;                                  // любое движение — уже не клик
+      if (axis === 'y'){ dragging = false; return; }       // вертикаль отдаём странице целиком
+      vp.classList.add('grabbing');
+      try { vp.setPointerCapture(id); } catch(_){}         // горизонталь — теперь наша
+    }
+
+    let nx = startX + dx;                        // 1:1 за пальцем
     if (nx > 0) nx = rubber(nx, vp.clientWidth);                 // резинка слева
     else if (nx < min) nx = min + rubber(nx - min, vp.clientWidth); // и справа
     x = nx; draw();
@@ -1084,6 +1097,8 @@ addEventListener('visibilitychange', () => { if (!document.hidden){ ticking = fa
     dragging = false; vp.classList.remove('grabbing');
     setTimeout(() => railDragged = false, 0);    // сбрасываем уже после клика
     try { vp.releasePointerCapture(id); } catch(_){}
+    if (axis !== 'x') { axis = null; return; }   // вертикальный жест — ленту не бросаем
+    axis = null;
     const a = hist[0], b = hist[hist.length-1];
     const dt = b && a ? (b.t - a.t) : 0;
     const vel = dt > 0 ? (b.x - a.x) / dt * 1000 : 0;   // px/сек

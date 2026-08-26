@@ -1,0 +1,1273 @@
+<title>Шукру — Тишина</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   ШУКРУ · Вариант 6 «Тишина»
+   Построен строго по языку Apple:
+   — системный шрифт (на Mac подхватывается настоящий SF Pro),
+   — трекинг и интерлиньяж зависят от кегля,
+   — один экран = одна мысль, воздух вместо плотности,
+   — материалы и глубина вместо рамок,
+   — движение на пружинах: 1:1 захват, инерция, резинка,
+     прерываемость в любой момент.
+   ============================================================ */
+
+:root{
+  /* палитра почти монохромная — цвет только там, где он что-то значит */
+  --paper:#ffffff;
+  --paper-2:#f5f5f7;
+  --paper-3:#e8e8ed;
+  --ink:#1d1d1f;
+  --ink-2:#6e6e73;
+  --ink-3:#86868b;
+  --hair:#d2d2d7;
+
+  --accent:#0A7D5E;      /* фирменный зелёный, углублённый до читаемого */
+  --accent-lit:#07BC8E;  /* исходный бренд — только тонкие акценты */
+
+  --nav-h:48px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip;scroll-behavior:auto;scrollbar-gutter:stable}
+html.sheet-open,html.sheet-open body{overflow:hidden}
+body{
+  margin:0;max-width:100vw;background:var(--paper);color:var(--ink);
+  /* системный шрифт первым: на macOS/iOS это SF Pro с оптическими размерами */
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Inter Tight',system-ui,sans-serif;
+  font-size:17px;line-height:1.47;letter-spacing:-.012em;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+a{color:inherit;text-decoration:none}
+
+.wrap{width:min(1000px,calc(100% - 44px));margin-inline:auto}
+.wide{width:min(1440px,calc(100% - 44px));margin-inline:auto}
+@media(max-width:640px){.wrap,.wide{width:calc(100% - 32px)}}
+
+/* ---------- типографика: трекинг и интерлиньяж зависят от кегля ---------- */
+.t-hero{
+  font-size:clamp(2.55rem,6vw,4.6rem);
+  line-height:1.06;letter-spacing:-.024em;font-weight:600;margin:0;
+}
+.t-sec{
+  font-size:clamp(1.9rem,4vw,3rem);
+  line-height:1.08;letter-spacing:-.022em;font-weight:600;margin:0;
+}
+.t-sub{
+  font-size:clamp(1.14rem,1.7vw,1.55rem);
+  line-height:1.38;letter-spacing:-.012em;font-weight:400;color:var(--ink-2);margin:18px 0 0;
+}
+.t-eyebrow{
+  font-size:clamp(1.05rem,1.5vw,1.32rem);line-height:1.2;letter-spacing:-.008em;
+  font-weight:600;color:var(--accent);margin:0 0 12px;
+}
+.t-body{font-size:1.06rem;line-height:1.52;color:var(--ink-2);letter-spacing:-.01em}
+.dim{color:var(--ink-2)}
+
+/* ---------- навигация: тонкая, контент проезжает под ней ---------- */
+.nav{
+  position:sticky;top:0;z-index:80;height:var(--nav-h);
+  background:rgba(255,255,255,.72);
+  backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:.5px solid rgba(0,0,0,.09);
+}
+.nav-in{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;height:100%}
+.brand{display:flex;align-items:center;gap:7px;font-size:.95rem;font-weight:600;letter-spacing:.01em;grid-column:1;justify-self:start}
+.brand svg{width:15px;height:15px}
+.brand .sfx{color:var(--ink-3);font-weight:400}
+.nav-links{display:flex;gap:28px;justify-content:center;grid-column:2}
+.nav-links a{font-size:.86rem;color:var(--ink);opacity:.82;transition:opacity .2s;white-space:nowrap}
+.nav-links a:hover{opacity:1}
+.nav-act{font-size:.86rem;color:var(--accent);font-weight:500;grid-column:3;justify-self:end;white-space:nowrap}
+@media(max-width:720px){.nav-links{display:none}.nav-in{grid-template-columns:1fr auto}.nav-act{grid-column:2}}
+
+/* ---------- кнопки: таблетка Apple + текстовая ссылка со стрелкой ---------- */
+.pill{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--accent);color:#fff;border-radius:980px;
+  padding:12px 23px;font-size:1.02rem;font-weight:400;letter-spacing:-.01em;
+  transition:background .2s ease,transform .18s cubic-bezier(.2,.9,.25,1);
+}
+.pill:hover{background:#0B8E6A}
+.pill.big{padding:14px 28px;font-size:1.1rem}
+.pill.ghost{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1px currentColor}
+.pill.ghost:hover{background:rgba(10,125,94,.06)}
+.pill.on-dark{background:#fff;color:#000}
+.pill.on-dark:hover{background:#e8e8ed}
+.lnk{
+  display:inline-flex;align-items:center;gap:4px;color:var(--accent);
+  font-size:1.06rem;letter-spacing:-.01em;
+}
+.lnk::after{content:"›";font-size:1.25em;line-height:1;transform:translateY(-.055em);transition:transform .25s cubic-bezier(.2,.9,.25,1)}
+.lnk:hover::after{transform:translate(3px,-.055em)}
+.lnk.on-dark{color:#2DD4A6}
+.cta-row{display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-top:26px;justify-content:center}
+
+/* нажатие: отклик на pointerdown, а не на клике */
+.press{transition:transform .18s cubic-bezier(.2,.9,.25,1)}
+.press.down{transform:scale(.965)}
+
+/* ---------- герой ---------- */
+.hero{padding:clamp(34px,4.2vw,62px) 0 0;text-align:center}
+.hero .t-sub{margin-inline:auto;max-width:46ch}
+
+/* фото раскрывается по мере прокрутки — фирменный приём */
+.reveal-shot{margin-top:clamp(26px,3.4vw,48px)}
+.reveal-shot .frame{
+  position:relative;overflow:hidden;margin-inline:auto;
+  border-radius:24px;
+  box-shadow:0 30px 80px -34px rgba(0,0,0,.45);
+  transform:scale(var(--sc,.9));
+  transform-origin:50% 0;
+  will-change:transform;
+  contain:paint;
+}
+.reveal-shot .frame{height:clamp(320px,58vh,620px)}
+.reveal-shot img{position:absolute;inset:-9% 0;width:100%;height:118%;object-fit:cover;will-change:transform}
+
+/* мягкая плашка на фото — материал, а не рамка */
+.on-shot{
+  position:absolute;left:clamp(16px,3vw,34px);bottom:clamp(16px,3vw,34px);
+  padding:15px 19px;border-radius:19px;text-align:left;
+  background:rgba(28,28,30,.56);
+  backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);
+  color:#fff;
+}
+.on-shot .k{font-size:1.5rem;font-weight:600;letter-spacing:-.024em;line-height:1}
+.on-shot .v{font-size:.83rem;opacity:.78;margin-top:5px;letter-spacing:-.004em}
+
+/* ---------- крупные цифры без карточек ---------- */
+.figs{padding:clamp(84px,11vw,168px) 0;text-align:center}
+.figs-row{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,5vw,72px);margin-top:clamp(40px,5vw,68px)}
+@media(max-width:760px){.figs-row{grid-template-columns:1fr;gap:44px}}
+.figs .k{font-size:clamp(2.4rem,5vw,3.9rem);font-weight:600;letter-spacing:-.03em;line-height:1}
+.figs .v{color:var(--ink-2);font-size:1.02rem;margin-top:12px;letter-spacing:-.008em}
+
+/* ---------- тёмный экран: рассрочка ---------- */
+.dark{background:#000;color:#f5f5f7}
+.dark .t-sub{color:#a1a1a6}
+.dark .t-eyebrow{color:#2DD4A6}
+
+.stick{position:relative}
+.stick-in{position:sticky;top:0;min-height:100svh;contain:layout;display:flex;flex-direction:column;justify-content:center;padding:clamp(60px,9vh,110px) 0}
+.pay-head{text-align:center;margin-bottom:clamp(40px,6vh,74px)}
+.pays{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.6vw,20px)}
+@media(max-width:900px){.pays{grid-template-columns:repeat(2,1fr);gap:12px}}
+@media(max-width:420px){.pays{grid-template-columns:1fr}}
+.pay{
+  border-radius:20px;padding:clamp(20px,2.4vw,30px);
+  background:#1c1c1e;
+  opacity:.3;
+  transition:opacity .5s cubic-bezier(.2,.9,.25,1),background .5s ease;
+  contain:layout paint;
+}
+.pay.on{opacity:1;background:#242426}
+.pay .n{font-size:.78rem;color:#8e8e93;letter-spacing:-.004em}
+.pay .a{font-size:clamp(1.4rem,2.5vw,2.05rem);font-weight:600;letter-spacing:-.028em;margin-top:10px;line-height:1}
+.pay .d{font-size:.86rem;color:#a1a1a6;margin-top:8px;letter-spacing:-.006em}
+.pay-tot{
+  margin-top:clamp(22px,3vh,38px);text-align:center;font-size:clamp(1.05rem,1.7vw,1.4rem);
+  letter-spacing:-.014em;color:#a1a1a6;
+}
+.pay-tot b{color:#f5f5f7;font-weight:600}
+
+/* ---------- садака: перетаскиваемая лента ---------- */
+.rail-sec{padding:clamp(84px,11vw,150px) 0 clamp(60px,7vw,96px)}
+.rail-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(30px,4vw,50px)}
+.rail-vp{
+  overflow:hidden;cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none;
+  /* обрезка по горизонтали не должна съедать тень карточек:
+     даём запас паддингом и тут же вычитаем его отрицательным полем — ритм не меняется */
+  padding:20px 0 52px;margin:-20px 0 -52px;
+}
+.rail-vp.grabbing{cursor:grabbing}
+.rail{display:flex;gap:clamp(14px,1.8vw,22px);will-change:transform}
+.slide{
+  flex:0 0 clamp(268px,25vw,340px);border-radius:22px;overflow:hidden;background:var(--paper-2);
+  box-shadow:0 2px 5px rgba(0,0,0,.05),0 14px 34px -22px rgba(0,0,0,.4);
+  transition:box-shadow .4s ease,transform .4s cubic-bezier(.2,.9,.25,1);
+}
+.rail-vp:not(.grabbing) .slide:hover{transform:translateY(-4px);box-shadow:0 4px 9px rgba(0,0,0,.06),0 22px 46px -22px rgba(0,0,0,.45)}
+.slide .ph{aspect-ratio:4/3;overflow:hidden;background:var(--paper-3)}
+.slide .ph img{width:112%;height:100%;object-fit:cover;pointer-events:none;margin-left:-6%}
+.slide .bd{padding:19px 18px 21px}
+.slide h4{font-size:1.06rem;font-weight:600;letter-spacing:-.016em;line-height:1.32;margin:0 0 5px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.64em}
+.slide .org{font-size:.82rem;color:var(--ink-3);margin:0 0 16px;letter-spacing:-.004em;
+  display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.bar{height:4px;border-radius:2px;background:var(--paper-3);overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:2px;background:var(--accent-lit)}
+.sums-lbl{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:11px;
+  font-size:.73rem;color:var(--ink-3);letter-spacing:-.002em}
+.sums-lbl span:last-child{text-align:right}
+.sums{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 10px;
+  margin-top:3px;letter-spacing:-.008em;font-variant-numeric:tabular-nums}
+/* запас по ширине: в Safari системный шрифт шире, и впритык набранные
+   суммы обрезались — кегль задан так, чтобы оставался воздух */
+.sums b{white-space:nowrap;font-size:.97rem;font-weight:600;min-width:0}
+.sums span{margin-left:auto;text-align:right;white-space:nowrap;font-size:.79rem;color:var(--ink-3)}
+@media(max-width:1100px) and (min-width:1001px){.sums b{font-size:.92rem}.sums span{font-size:.76rem}}
+/* отступ и ширину задаёт ряд .act — старое правило сдвигало кнопку внутри ряда */
+.rail-hint{margin-top:18px;font-size:.83rem;color:var(--ink-3);letter-spacing:-.004em;text-align:center}
+
+/* ---------- строки-факты вместо карточек ---------- */
+.facts{padding:clamp(70px,9vw,130px) 0}
+.frow{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(20px,4vw,60px);padding:clamp(26px,3.4vw,40px) 0;border-top:.5px solid var(--hair)}
+.frow:last-child{border-bottom:.5px solid var(--hair)}
+@media(max-width:760px){.frow{grid-template-columns:1fr;gap:10px}}
+.frow h3{font-size:clamp(1.25rem,2vw,1.7rem);font-weight:600;letter-spacing:-.02em;margin:0}
+.frow p{margin:0;color:var(--ink-2);font-size:1.06rem;line-height:1.5;letter-spacing:-.01em;max-width:52ch}
+
+/* ---------- финал ---------- */
+.fin{padding:clamp(84px,11vw,160px) 0;text-align:center}
+
+/* ---------- подвал ---------- */
+.foot{background:var(--paper-2);padding:38px 0 30px;font-size:.75rem;color:var(--ink-3);letter-spacing:-.002em}
+.foot-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;padding-bottom:24px;border-bottom:.5px solid var(--hair)}
+.foot-cols>*{min-width:0}
+@media(max-width:860px){.foot-cols{grid-template-columns:1fr 1fr}}
+.foot h5{font-size:.75rem;font-weight:600;color:var(--ink);margin:0 0 9px}
+.foot ul{list-style:none;padding:0;margin:0;display:grid;gap:7px}
+.foot a{color:var(--ink-3)}
+.foot a:hover{text-decoration:underline;color:var(--ink)}
+.foot .legal{margin-top:20px;line-height:1.65;overflow-wrap:anywhere}
+
+/* ---------- страница садаки ---------- */
+.sd-top{padding:clamp(34px,4.2vw,62px) 0 clamp(26px,3.2vw,40px);text-align:center}
+.sd-top .t-hero{font-size:clamp(2.1rem,4.9vw,3.85rem)}   /* длинная третья строка должна дышать по краям */
+.sd-top .sd-of{margin-inline:auto;max-width:46ch}
+.sd-sum{font-size:clamp(2.05rem,4.5vw,3.35rem);font-weight:600;letter-spacing:-.032em;line-height:1;margin:26px 0 0;
+  font-variant-numeric:tabular-nums;color:var(--accent)}
+.sd-of{color:var(--ink-2);font-size:1.1rem;margin-top:16px;letter-spacing:-.01em}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;justify-content:center}
+@media(max-width:900px){.chips{justify-content:flex-start}}
+.chips::-webkit-scrollbar{display:none}
+.chip i{font-style:normal;margin-right:7px;font-size:1.02em;line-height:1;vertical-align:-.05em}
+.chip{
+  flex:0 0 auto;padding:8px 15px 8px 13px;border-radius:980px;background:var(--paper-2);
+  color:var(--ink);font-size:.9rem;letter-spacing:-.008em;white-space:nowrap;
+  transition:background .22s ease,color .22s ease,transform .18s cubic-bezier(.2,.9,.25,1);
+}
+.chip:hover{background:var(--paper-3)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff}
+.chips-wrap{position:relative}
+@media(max-width:900px){.chips-wrap::after{content:"";position:absolute;right:-1px;top:0;bottom:16px;width:56px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--paper) 76%)}}
+
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,26px);padding-bottom:clamp(60px,8vw,110px)}
+@media(max-width:960px){.tiles{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.tiles{grid-template-columns:1fr}}
+.tile.up{transform:translateY(26px) scale(.985)}
+.tile.up.in{transform:none}
+.tile{border-radius:22px;overflow:hidden;background:var(--paper-2);
+  box-shadow:0 2px 5px rgba(0,0,0,.05),0 14px 34px -22px rgba(0,0,0,.4);
+  transition:transform .4s cubic-bezier(.2,.9,.25,1),box-shadow .4s ease}
+.tile:hover{transform:translateY(-4px);box-shadow:0 4px 9px rgba(0,0,0,.06),0 24px 50px -22px rgba(0,0,0,.45)}
+.tile .ph{aspect-ratio:16/10;overflow:hidden;background:var(--paper-3);position:relative}
+.tile .ph img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.9,.25,1)}
+.tile:hover .ph img{transform:scale(1.035)}
+.tile .bd{padding:20px 19px 22px}
+.tile h4{font-size:1.08rem;font-weight:600;letter-spacing:-.016em;line-height:1.32;margin:0 0 5px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.64em}
+.tile .org{font-size:.83rem;color:var(--ink-3);margin:0 0 17px;letter-spacing:-.004em;
+  display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.act{display:flex;align-items:stretch;gap:9px;margin-top:17px}
+/* обе кнопки одной высоты: у круглой она была фиксированной, и ряд вставал криво */
+.act .pill{flex:1;height:46px;padding-block:0}
+.act .share{height:46px}
+.share{
+  width:46px;height:46px;flex-shrink:0;border-radius:980px;background:var(--paper-3);color:var(--ink);
+  display:grid;place-items:center;transition:background .2s ease,transform .18s cubic-bezier(.2,.9,.25,1);
+}
+.share:hover{background:#dcdce2}
+.share svg{width:18px;height:18px}
+
+/* ---------- страница сбора ---------- */
+.f-top{padding:24px 0 0}
+.f-back{display:inline-flex;align-items:center;gap:7px;color:var(--ink-2);font-size:.95rem;margin-bottom:20px;letter-spacing:-.01em}
+.f-back::before{content:"\2039";font-size:1.35em;line-height:1;transform:translateY(-.04em)}
+.f-back:hover{color:var(--accent)}
+.f-shot{border-radius:24px;overflow:hidden;height:clamp(230px,42vh,470px);position:relative;background:var(--paper-3)}
+.f-shot img{width:100%;height:100%;object-fit:cover}
+.f-cat{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+  padding:7px 15px;border-radius:980px;font-size:.83rem;font-weight:500;letter-spacing:-.006em}
+.f-h{font-size:clamp(1.65rem,3.3vw,2.6rem);line-height:1.11;letter-spacing:-.024em;font-weight:600;margin:26px 0 0}
+.f-meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.f-meta span{background:var(--paper-2);border-radius:980px;padding:7px 15px;font-size:.86rem;color:var(--ink-2);letter-spacing:-.006em}
+.f-meta b{color:var(--ink);font-weight:600}
+.f-grid{display:grid;grid-template-columns:1.5fr .92fr;gap:clamp(26px,4vw,60px);margin:clamp(28px,3.6vw,48px) 0 0;align-items:start}
+@media(max-width:900px){.f-grid{grid-template-columns:1fr;gap:26px}}
+.f-text p{font-size:1.06rem;line-height:1.62;color:var(--ink-2);margin:0 0 17px;letter-spacing:-.008em}
+.f-text p:first-child{color:var(--ink);font-size:1.14rem;line-height:1.54}
+.f-text p:last-child{margin-bottom:0}
+.f-side{position:sticky;top:calc(var(--nav-h) + 18px);background:var(--paper-2);border-radius:22px;padding:26px 24px}
+@media(max-width:900px){.f-side{position:static;order:-1}}
+.f-sum{font-size:clamp(1.65rem,2.9vw,2.25rem);font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.f-of{color:var(--ink-3);font-size:.9rem;margin-top:7px}
+.f-bar{height:6px;border-radius:3px;background:var(--paper-3);overflow:hidden;margin:18px 0 10px}
+.f-bar i{display:block;height:100%;width:0;background:var(--accent-lit);border-radius:3px;transition:width 1.1s cubic-bezier(.2,.9,.25,1)}
+.f-row{display:flex;justify-content:space-between;font-size:.85rem;color:var(--ink-3);letter-spacing:-.004em}
+.f-row b{color:var(--accent);font-weight:600}
+.f-acts{display:flex;gap:9px;margin-top:20px}
+.f-acts .pill{flex:1}
+.f-doc{display:flex;gap:10px;align-items:flex-start;margin-top:19px;padding-top:17px;border-top:.5px solid var(--hair);font-size:.84rem;color:var(--ink-2);line-height:1.46;letter-spacing:-.004em}
+.f-doc svg{flex-shrink:0;margin-top:2px;color:var(--accent)}
+.f-more{padding:clamp(54px,7vw,96px) 0 0}
+.f-more .tiles{padding-bottom:0;margin-top:clamp(22px,3vw,36px)}
+@media(max-width:430px){
+  .f-h{font-size:clamp(1.45rem,6.4vw,1.9rem)}
+  .f-side{padding:22px 20px}
+  .f-text p{font-size:1rem}
+}
+/* карточка целиком ведёт на страницу сбора */
+.tile,.slide{cursor:pointer}
+
+/* ---------- нижний лист: тянется пальцем ---------- */
+.scrim{
+  position:fixed;inset:0;z-index:180;background:rgba(0,0,0,0);
+  pointer-events:none;transition:background .34s ease;
+}
+.scrim.on{pointer-events:auto}
+.sheet{
+  position:fixed;left:50%;bottom:0;z-index:190;width:min(520px,100%);
+  /* тот же запас, что и в коде: иначе до выполнения скрипта
+     край листа торчал бы внизу — его и было видно первую секунду */
+  transform:translate(-50%, calc(100% + 44px));
+  background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(180%) blur(28px);-webkit-backdrop-filter:saturate(180%) blur(28px);
+  border-radius:22px 22px 0 0;
+  box-shadow:0 -12px 60px -18px rgba(0,0,0,.4);
+  padding:8px 22px calc(24px + env(safe-area-inset-bottom,0px));
+  will-change:transform;max-height:92svh;overflow:hidden;display:flex;flex-direction:column;
+}
+@media(min-width:720px){.sheet{border-radius:22px;bottom:24px}}
+.grabber{
+  width:100%;padding:8px 0 14px;display:flex;justify-content:center;flex-shrink:0;
+  touch-action:none;cursor:grab;
+}
+.sheet.dragging .grabber{cursor:grabbing}
+.grabber i{width:38px;height:5px;border-radius:3px;background:rgba(60,60,67,.3);display:block}
+.sh-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  /* запас, чтобы подсветка поля при фокусе не срезалась краем прокрутки */
+  padding:2px 3px 6px;margin:-2px -3px 0}
+/* действие всегда на виду, даже когда содержимое прокручивается */
+.sh-foot{flex-shrink:0;padding-top:14px;position:relative}
+.sh-foot::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.75))}
+.niy{margin-bottom:4px}
+
+.sh-top{display:flex;gap:13px;align-items:flex-start;margin-bottom:20px}
+.sh-top img{width:52px;height:52px;border-radius:12px;object-fit:cover;flex-shrink:0}
+.sh-top h4{font-size:1.02rem;font-weight:600;letter-spacing:-.016em;line-height:1.3;margin:0 0 4px}
+.sh-top .o{font-size:.83rem;color:var(--ink-3)}
+
+/* сегмент с пружинной шторкой */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:rgba(118,118,128,.12);
+  border-radius:9px;padding:2px;margin-bottom:20px}
+.seg .th{position:absolute;top:2px;bottom:2px;left:2px;width:calc(50% - 2px);border-radius:7px;
+  background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.12);will-change:transform}
+.seg button{position:relative;z-index:2;padding:8px;font-size:.93rem;font-weight:500;letter-spacing:-.01em;
+  color:var(--ink);transition:opacity .2s}
+.seg button[aria-pressed="false"]{opacity:.6}
+
+.amount{display:block;padding:16px 0 18px}
+/* Поле во всю ширину и текст по центру. Раньше ширина вычислялась по содержимому —
+   и промах в один пиксель срезал последний знак. Теперь обрезать нечего. */
+.amount input{
+  display:block;width:100%;border:0;outline:0;background:none;text-align:center;
+  font:inherit;font-size:clamp(1.85rem,8.4vw,3.1rem);font-weight:600;letter-spacing:-.03em;
+  line-height:1.12;color:var(--ink);font-variant-numeric:tabular-nums;
+}
+.amount input.long{font-size:clamp(1.5rem,6.2vw,2.3rem)}   /* длинная сумма набирается мельче */
+.quick{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.quick button{padding:8px 15px;border-radius:980px;background:var(--paper-2);font-size:.9rem;letter-spacing:-.008em;
+  transition:background .2s ease,transform .18s cubic-bezier(.2,.9,.25,1)}
+.quick button:hover{background:var(--paper-3)}
+.quick button[aria-pressed="true"]{background:var(--accent);color:#fff}
+
+.niy{margin-bottom:18px}
+.niy label{display:block;font-size:.88rem;font-weight:500;margin-bottom:7px;letter-spacing:-.008em}
+.niy input{width:100%;border:0;outline:0;background:var(--paper-2);border-radius:11px;padding:12px 14px;
+  font:inherit;font-size:.95rem;letter-spacing:-.008em;color:var(--ink);transition:box-shadow .22s ease}
+.niy input:focus{box-shadow:0 0 0 3.5px rgba(10,125,94,.18)}
+.niy .hint{font-size:.79rem;color:var(--ink-3);margin-top:7px;line-height:1.45;letter-spacing:-.004em}
+.sh-note{display:flex;gap:7px;margin-top:13px;font-size:.78rem;color:var(--ink-3);line-height:1.45;letter-spacing:-.004em}
+.sh-note svg{flex-shrink:0;margin-top:2px;color:var(--accent)}
+
+@media(max-width:640px){.br-wide{display:none}}
+
+/* заголовок собирается по словам: подъём + расфокус уходит */
+.w{display:inline-block;opacity:0;transform:translateY(.38em);filter:blur(9px);will-change:transform,opacity,filter}
+.w.done{will-change:auto;filter:none}
+.w.in{opacity:1;transform:none;filter:blur(0);
+  transition:opacity .72s cubic-bezier(.2,.9,.25,1),transform .82s cubic-bezier(.2,.9,.25,1),filter .62s cubic-bezier(.2,.9,.25,1)}
+
+/* ---------- проявление ---------- */
+.up{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.9,.25,1),transform .9s cubic-bezier(.2,.9,.25,1)}
+.up.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+.page{display:none}
+.page.on{display:block;animation:pgIn .62s cubic-bezier(.2,.9,.25,1)}
+/* до выполнения основного скрипта нужную страницу выбирает атрибут на <html>:
+   иначе браузер успевает нарисовать главную, и она мелькает при заходе на Садаку */
+html[data-page="home"] #p-home,
+html[data-page="sadaka"] #p-sadaka{display:block}
+@keyframes pgIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- телефоны ---------- */
+@media(max-width:640px){
+  /* шапка не липнет к верху: в мобильном браузере поверх своей панели это смотрится грязно */
+  .nav{position:static;background:var(--paper)}
+  .f-side{top:18px}
+}
+@media(max-width:430px){
+  .t-hero{font-size:clamp(1.7rem,8.4vw,2.3rem);line-height:1.1;letter-spacing:-.02em}
+  .sd-top .t-hero{font-size:clamp(1.6rem,7.6vw,2.1rem)}
+  .t-sec{font-size:clamp(1.6rem,6.6vw,2.1rem)}
+  .t-sub{font-size:1.02rem;line-height:1.42}
+  .t-eyebrow{font-size:.98rem}
+  .hero{padding:44px 0 0}
+  .hero .t-sub{max-width:34ch}
+  .reveal-shot{margin-top:36px}
+  .reveal-shot .frame{height:clamp(240px,44vh,360px)}
+  .figs{padding:64px 0}
+  .rail-sec{padding:60px 0 44px}
+  .facts{padding:54px 0}
+  .fin{padding:64px 0}
+  .sd-top{padding:40px 0 18px}
+  .sd-top .t-hero{font-size:clamp(1.5rem,6.7vw,2rem);line-height:1.12}
+  .sd-sum{font-size:clamp(1.8rem,8.4vw,2.45rem);margin-top:18px}
+  .sd-of{font-size:.95rem;margin-top:10px}
+  .t-eyebrow{margin-bottom:8px}
+  .chips{padding-bottom:12px}
+  .tiles{gap:14px}
+  .cta-row{gap:18px;margin-top:26px}
+  .pill.big{padding:13px 24px;font-size:1.02rem}
+  .on-shot{padding:12px 15px;border-radius:15px}
+  .on-shot .k{font-size:1.22rem}
+  .stick-in{padding:44px 0}
+  .pay{padding:16px 18px;border-radius:16px}
+  .pay .a{font-size:1.35rem}
+  .foot-cols{grid-template-columns:1fr 1fr;gap:22px}
+}
+/* лента на телефоне уходит за края экрана */
+@media(max-width:640px){
+  .rail-vp{padding:16px 16px 44px;margin:-16px -16px -44px}
+  .rail-hint{margin-top:14px}
+}
+
+/* очень узкие — подвал в одну колонку */
+@media(max-width:360px){
+  .foot-cols{grid-template-columns:1fr}
+  .slide{flex:0 0 82vw}
+}
+
+/* безопасные зоны iPhone + место под пульт прототипа */
+.foot{padding-bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+.wrap,.wide{padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.16s!important}
+  .up{opacity:1;transform:none}
+  .reveal-shot .frame{transform:none;border-radius:22px}
+  .pay{opacity:1;transform:none}
+}
+</style>
+
+<!-- ================= ГЛАВНАЯ ================= -->
+<script>
+/* Выполняется до разметки страниц: помечаем документ,
+   чтобы первый же нарисованный кадр был правильным. */
+document.documentElement.dataset.page = /sadaka/i.test(location.pathname) ? 'sadaka' : 'home';
+</script>
+<div class="page" id="p-home">
+
+  <nav class="nav"><div class="wide nav-in">
+    <span class="brand">
+      <svg viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0c2.02 0 3.97.3 5.808.858A16.5 16.5 0 0 0 23.5 20a16.5 16.5 0 0 0 2.308 8.39A19.94 19.94 0 0 1 20 40Z" fill="#0A7D5E"/></svg>
+      Шукру
+    </span>
+    <div class="nav-links"><a href="#">Рассрочка</a><a href="#">Садака</a><a href="#">Бизнесу</a><a href="#">Поддержка</a></div>
+    <a class="nav-act" href="sadaka.html">Сделать садаку</a>
+  </div></nav>
+
+  <!-- герой -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="t-eyebrow up">Халяльные платёжные решения</p>
+      <h1 class="t-hero" data-words>Без процентов.<br>Без комиссий.<br>Без мелкого шрифта.</h1>
+      <p class="t-sub up d2">Рассрочка и Садака от Шукру помогают решать бытовые задачи и делать добрые дела — прозрачно, безопасно и без лишних условий.</p>
+      <div class="cta-row up d3">
+        <a class="pill big press" href="#">О рассрочке</a>
+        <a class="lnk" href="sadaka.html">Сделать пожертвование</a>
+      </div>
+    </div>
+
+    <div class="wide reveal-shot" id="shot">
+      <div class="frame">
+        <img src="{{IMG:hero_h}}" alt="Мечеть на рассвете">
+        <div class="on-shot">
+          <div class="k" data-count="115840011" data-suffix=" ₽">0 ₽</div>
+          <div class="v">собрано вместе с 39 фондами</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- три цифры -->
+  <section class="figs">
+    <div class="wrap">
+      <h2 class="t-sec up">Польза<br>без скрытых условий.</h2>
+      <div class="figs-row">
+        <div class="up"><div class="k" data-count="112">0</div><div class="v">активных сборов<br>прямо сейчас</div></div>
+        <div class="up d1"><div class="k" data-count="39">0</div><div class="v">благотворительных<br>фондов-партнёров</div></div>
+        <div class="up d2"><div class="k">0&thinsp;%</div><div class="v">комиссия сервиса<br>с пожертвования</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- тёмный экран: четыре платежа -->
+  <section class="dark stick" id="paySec" style="height:186svh">
+    <div class="stick-in">
+      <div class="wrap pay-head">
+        <p class="t-eyebrow">Рассрочка</p>
+        <h2 class="t-sec">Рассрочка,<br>которой можно доверять.</h2>
+      </div>
+      <div class="wrap">
+        <div class="pays" id="pays">
+          <div class="pay"><div class="n">Платёж 1</div><div class="a">6 000 ₽</div><div class="d">сегодня</div></div>
+          <div class="pay"><div class="n">Платёж 2</div><div class="a">6 000 ₽</div><div class="d">через 30 дней</div></div>
+          <div class="pay"><div class="n">Платёж 3</div><div class="a">6 000 ₽</div><div class="d">через 60 дней</div></div>
+          <div class="pay"><div class="n">Платёж 4</div><div class="a">6 000 ₽</div><div class="d">через 90 дней</div></div>
+        </div>
+        <p class="pay-tot">Купи сейчас, плати потом: покупка на 24 000 ₽ — вы вернёте <b>ровно 24 000 ₽</b></p>
+        <div class="cta-row"><a class="pill big on-dark press" href="#">Где покупать</a><a class="lnk on-dark" href="#">Как купить в рассрочку</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- перетаскиваемая лента сборов -->
+  <section class="rail-sec">
+    <div class="wide">
+      <div class="rail-head up">
+        <div>
+          <p class="t-eyebrow">Садака</p>
+          <h2 class="t-sec">Садака —<br>просто и прозрачно.</h2>
+        </div>
+        <a class="lnk" href="sadaka.html">Все 112 сборов</a>
+      </div>
+      <div class="rail-vp" id="railVp"><div class="rail" id="rail"></div></div>
+      <p class="rail-hint">Можно листать</p>
+    </div>
+  </section>
+
+  <!-- факты строками -->
+  <section class="facts">
+    <div class="wrap">
+      <div class="frow up"><h3>Прозрачные условия</h3><p>Все правила и процессы понятны заранее — без скрытых комиссий, сложных схем и неожиданных условий.</p></div>
+      <div class="frow up"><h3>Безопасные операции</h3><p>Мы используем надёжные платёжные решения и современные стандарты безопасности для всех финансовых операций.</p></div>
+      <div class="frow up"><h3>Контроль и отчётность</h3><p>Каждый процесс находится под контролем: платежи, переводы и движение средств доступны для проверки и анализа.</p></div>
+      <div class="frow up"><h3>Поддержка и сопровождение</h3><p>Мы сопровождаем пользователей на каждом этапе и помогаем быстро решить любые вопросы.</p></div>
+    </div>
+  </section>
+
+  <section class="fin">
+    <div class="wrap">
+      <h2 class="t-sec up">Мы строим сервисы, где удобство<br>не противоречит честности,<br>а технологии работают во благо людей.</h2>
+      <div class="cta-row up d1">
+        <a class="pill big press" href="#">О рассрочке</a>
+        <a class="lnk" href="sadaka.html">Сделать пожертвование</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot"><div class="wide">
+    <div class="foot-cols">
+      <div><h5>Сервисы</h5><ul><li><a href="#">Рассрочка</a></li><li><a href="sadaka.html">Садака</a></li><li><a href="#">Платёжный метод</a></li><li><a href="#">Покупателю</a></li></ul></div>
+      <div><h5>Компания</h5><ul><li><a href="#">О нас</a></li><li><a href="#">Бизнесу</a></li><li><a href="#">Партнёрам</a></li><li><a href="#">Поддержка</a></li></ul></div>
+      <div><h5>Документы</h5><ul><li><a href="#">Оферта</a></li><li><a href="#">Конфиденциальность</a></li><li><a href="#">Безопасность платежей</a></li></ul></div>
+      <div><h5>Контакты</h5><ul><li><a href="#">contactsupport@shookru.com</a></li></ul></div>
+    </div>
+    <p class="legal">ООО «Шукру» (SHOOKRU) · ИНН 9726108681 · ОГРН 1257700560523 · 115191, Москва, пер. Духовской, д. 19, помещ. 141<br>© 2026 Шукру. Все права защищены.</p>
+  </div></footer>
+</div>
+
+<!-- ================= САДАКА ================= -->
+<div class="page" id="p-sadaka">
+  <nav class="nav"><div class="wide nav-in">
+    <span class="brand">
+      <svg viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0c2.02 0 3.97.3 5.808.858A16.5 16.5 0 0 0 23.5 20a16.5 16.5 0 0 0 2.308 8.39A19.94 19.94 0 0 1 20 40Z" fill="#0A7D5E"/></svg>
+      Шукру <span class="sfx">Садака</span>
+    </span>
+    <div class="nav-links"><a href="index.html">Рассрочка</a><a href="#">Сборы</a><a href="#">Отчёты</a><a href="#">Закят</a></div>
+    <a class="nav-act" href="#">Мои пожертвования</a>
+  </div></nav>
+
+  <section class="sd-top">
+    <div class="wide">
+      <p class="t-eyebrow up">Пожертвования</p>
+      <h1 class="t-hero" data-words>Просто. <br class="br-wide">Прозрачно.<br>С отчётом по каждому рублю.</h1>
+      <div class="sd-sum up d2" data-count="115840011" data-suffix=" ₽">0 ₽</div>
+      <p class="sd-of up d2">собрано на 112 сборов вместе с 39 фондами. Полная отчётность по каждому сбору.</p>
+    </div>
+  </section>
+
+  <div class="wide chips-wrap up d3"><div class="chips">
+    <button class="chip" aria-pressed="true">Все сборы</button>
+    <button class="chip"><i>🌙</i>Мечети · 16</button><button class="chip"><i>🎠</i>Дети · 50</button>
+    <button class="chip"><i>❤️</i>Здоровье · 59</button><button class="chip"><i>☀️</i>Фонды · 94</button>
+    <button class="chip"><i>🎓</i>Образование · 10</button><button class="chip"><i>🏗️</i>Строительство · 13</button>
+    <button class="chip"><i>📗</i>Закят</button>
+  </div></div>
+
+  <div class="wide"><div class="tiles" id="tiles"></div></div>
+
+  <footer class="foot"><div class="wide">
+    <div class="foot-cols">
+      <div><h5>Сборы</h5><ul><li><a href="#">Мечети</a></li><li><a href="#">Дети</a></li><li><a href="#">Здоровье</a></li><li><a href="#">Закят</a></li></ul></div>
+      <div><h5>Прозрачность</h5><ul><li><a href="#">Отчёты фондов</a></li><li><a href="#">Как мы проверяем</a></li><li><a href="#">Калькулятор закята</a></li></ul></div>
+      <div><h5>Документы</h5><ul><li><a href="#">Оферта</a></li><li><a href="#">Конфиденциальность</a></li></ul></div>
+      <div><h5>Контакты</h5><ul><li><a href="#">contactsupport@shookru.com</a></li></ul></div>
+    </div>
+    <p class="legal">ООО «Шукру» (SHOOKRU) · ИНН 9726108681 · Сборы ведут зарегистрированные фонды.<br>© 2026 Шукру.</p>
+  </div></footer>
+</div>
+
+<!-- ================= СТРАНИЦА СБОРА ================= -->
+<div class="page" id="p-fund">
+  <nav class="nav"><div class="wide nav-in">
+    <span class="brand">
+      <svg viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0c2.02 0 3.97.3 5.808.858A16.5 16.5 0 0 0 23.5 20a16.5 16.5 0 0 0 2.308 8.39A19.94 19.94 0 0 1 20 40Z" fill="#0A7D5E"/></svg>
+      Шукру <span class="sfx">Садака</span>
+    </span>
+    <div class="nav-links"><a href="index.html">Рассрочка</a><a href="sadaka.html">Сборы</a><a href="#">Отчёты</a><a href="#">Закят</a></div>
+    <a class="nav-act" href="#">Мои пожертвования</a>
+  </div></nav>
+
+  <section class="f-top"><div class="wide">
+    <a class="f-back" href="sadaka.html">Все сборы</a>
+    <div class="f-shot"><span class="f-cat" id="fCat"></span><img id="fImg" alt=""></div>
+    <h1 class="f-h" id="fName"></h1>
+    <div class="f-meta" id="fMeta"></div>
+
+    <div class="f-grid">
+      <div class="f-text" id="fText"></div>
+      <aside class="f-side">
+        <div class="f-sum" id="fCur"></div>
+        <div class="f-of" id="fTgt"></div>
+        <div class="f-bar"><i id="fBar"></i></div>
+        <div class="f-row"><b id="fPct"></b><span id="fLeft"></span></div>
+        <div class="f-acts">
+          <button class="share press" id="fShare" aria-label="Поделиться сбором"></button>
+          <button class="pill big press" id="fPay">Помочь</button>
+        </div>
+        <div class="f-doc" id="fDoc"></div>
+      </aside>
+    </div>
+  </div></section>
+
+  <section class="f-more"><div class="wide">
+    <h2 class="t-sec">Другие сборы</h2>
+    <div class="tiles" id="fMore"></div>
+  </div></section>
+
+  <footer class="foot"><div class="wide">
+    <div class="foot-cols">
+      <div><h5>Сборы</h5><ul><li><a href="sadaka.html">Мечети</a></li><li><a href="sadaka.html">Дети</a></li><li><a href="sadaka.html">Здоровье</a></li><li><a href="sadaka.html">Закят</a></li></ul></div>
+      <div><h5>Прозрачность</h5><ul><li><a href="#">Отчёты фондов</a></li><li><a href="#">Как мы проверяем</a></li><li><a href="#">Калькулятор закята</a></li></ul></div>
+      <div><h5>Документы</h5><ul><li><a href="#">Оферта</a></li><li><a href="#">Конфиденциальность</a></li></ul></div>
+      <div><h5>Контакты</h5><ul><li><a href="#">contactsupport@shookru.com</a></li></ul></div>
+    </div>
+    <p class="legal">ООО «Шукру» (SHOOKRU) · ИНН 9726108681 · Сборы ведут зарегистрированные фонды.<br>© 2026 Шукру.</p>
+  </div></footer>
+</div>
+
+<!-- нижний лист -->
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Пожертвование">
+  <div class="grabber" id="grab"><i></i></div>
+  <div class="sh-scroll">
+    <div class="sh-top">
+      <img id="shImg" src="{{IMG:f00_c}}" alt="">
+      <div><h4 id="shName">Строительство мечети города Хабаровска</h4><div class="o" id="shOrg">ДУМ Дальнего Востока</div></div>
+    </div>
+    <div class="seg" id="seg"><span class="th" id="segTh"></span>
+      <button aria-pressed="true">Разово</button><button aria-pressed="false">Каждый месяц</button>
+    </div>
+    <div class="amount"><input id="amt" value="1 000 ₽" inputmode="numeric" aria-label="Сумма"></div>
+    <div class="quick" id="quick">
+      <button>500</button><button aria-pressed="true">1 000</button><button>3 000</button><button>10 000</button>
+    </div>
+    <div class="niy">
+      <label for="niy">За кого эта садака <span class="dim" style="font-weight:400">— необязательно</span></label>
+      <input id="niy" placeholder="Например: за упокой моего отца, Абдуллы">
+      <div class="hint">Садака джария — непрерывная милостыня. Имя увидит только фонд.</div>
+    </div>
+  </div>
+  <div class="sh-foot">
+    <button class="pill big press" id="shPay" style="width:100%">Помочь · 1 000 ₽</button>
+    <div class="sh-note">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.5 20 6v6c0 5-3.4 8.4-8 9.5-4.6-1.1-8-4.5-8-9.5V6l8-3.5Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg>
+      <span>Комиссия сервиса 0 %. Полная отчётность по каждому сбору. Лист можно потянуть вниз, чтобы закрыть.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ============================================================
+   Пружина по параметрам Apple: damping ratio + response.
+   Численный интегратор — значит цель можно менять на лету,
+   скорость сохраняется, и анимация всегда прерываема.
+   ============================================================ */
+class Spring {
+  constructor(value, {response = .4, damping = 1} = {}) {
+    this.v = 0; this.x = value; this.target = value;
+    this.w = 2 * Math.PI / response;   // угловая частота
+    this.z = damping;                   // 1 = без перелёта
+  }
+  set(response, damping){ this.w = 2*Math.PI/response; this.z = damping; }
+  /** @param dt секунды */
+  step(dt){
+    // подшаги — устойчивость при просадке кадров
+    const n = Math.min(6, Math.max(1, Math.ceil(dt / .004)));
+    const h = dt / n;
+    for (let i = 0; i < n; i++){
+      const a = -this.w * this.w * (this.x - this.target) - 2 * this.z * this.w * this.v;
+      this.v += a * h;
+      this.x += this.v * h;
+    }
+    return this.x;
+  }
+  get settled(){ return Math.abs(this.v) < .04 && Math.abs(this.x - this.target) < .04; }
+}
+
+/* Проекция инерции — та же формула, что у прокрутки iOS */
+const project = (v, decel = .998) => (v / 1000) * decel / (1 - decel);
+
+/* Резинка: чем дальше за границу, тем меньше следует за пальцем */
+const rubber = (over, dim, c = .55) => (over * dim * c) / (dim + c * Math.abs(over));
+
+const rub = n => n.toLocaleString('ru-RU').replace(/,/g,' ') + ' ₽';
+let railDragged = false;   // после протягивания ленты клик не должен открывать сбор
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- данные: настоящие сборы платформы ---------- */
+const FUNDS = [
+  {img:'f00',cat:'Мечети',name:'Строительство мечети города Хабаровска',cur:12028943,tgt:15000000,org:'ДУМ Дальнего Востока'},
+  {img:'f05',cat:'Дети',name:'Возьми сироту на попечение — 2026',cur:17988245,tgt:30000000,org:'БФ «ЗАКЯТ»'},
+  {img:'f12',cat:'Строительство',name:'Второй корпус школы в Ульяновске',cur:20127148,tgt:60000000,org:'БФ «Чистое сердце»'},
+  {img:'f17',cat:'Закят',name:'Закят — 1447 (2026)',cur:14045160,tgt:30000000,org:'БФ «ЗАКЯТ»'},
+  {img:'f01',cat:'Мечети',name:'Московская Мемориальная мечеть 2026',cur:2874535,tgt:4500000,org:'БФ «ЗАКЯТ»'},
+  {img:'f08',cat:'Здоровье',name:'Продукты питания нуждающимся на 3 месяца',cur:3346179,tgt:5694525,org:'7 Колосьев'},
+  {img:'f09',cat:'Здоровье',name:'Отец с онкологией остался один с детьми',cur:935781,tgt:1000000,org:'БФ «Джудий»'},
+  {img:'f10',cat:'Здоровье',name:'У Нурай гидроцефалия — нужно лечение',cur:456892,tgt:710072,org:'БФ «Мир добра»'},
+  {img:'f13',cat:'Строительство',name:'Жильё после пожара в Нижнем Баскунчаке',cur:603923,tgt:1100000,org:'Саженцы добра'},
+  {img:'f16',cat:'Образование',name:'Поддержим исламский колледж 2026',cur:591079,tgt:1000000,org:'БФ «Чистое сердце»'},
+  {img:'f14',cat:'Строительство',name:'Ремонт детского лагеря «Муслим»',cur:374755,tgt:550000,org:'Клуб добрых людей'},
+  {img:'f19',cat:'Вакф',name:'Содержание молельных комнат Москвы 2026',cur:1315209,tgt:4000000,org:'БФ «ЗАКЯТ»'}
+];
+const IMG = {f00:'{{IMG:f00_c}}',f01:'{{IMG:f01_c}}',f05:'{{IMG:f05_c}}',f08:'{{IMG:f08_c}}',f09:'{{IMG:f09_c}}',
+             f10:'{{IMG:f10_c}}',f12:'{{IMG:f12_c}}',f13:'{{IMG:f13_c}}',f14:'{{IMG:f14_c}}',f16:'{{IMG:f16_c}}',
+             f17:'{{IMG:f17_c}}',f19:'{{IMG:f19_c}}'};
+
+const DESC = {"f00": ["Ассаляму алейкум! Мир вам, уважаемые братья и сёстры!", "Мы обращаемся к вам из города Хабаровска - крупнейшего города Дальневосточного федерального округа.", "В результате многих лет упорного служения на пути Всевышнего и на благо общества, служителям Духовного управления мусульман Дальнего Востока удалось согласовать с администрацией г. Хабаровска выделение земельного участка для строительства Первой Дальневосточной Соборной мечети и получить официальное разрешение на её возведение.", "На сегодняшний день это единственный проект подобного масштаба на всём Дальнем Востоке, полностью обеспеченный разрешительной и проектной документацией.", "Строительство Первой Дальневосточной Соборной мечети г. Хабаровска - это не просто очередное возведение Мечети. Это первая в современной истории мечеть в г. Хабаровске и самая большая Мечеть на всем Дальнем Востоке России.", "Реализация данного проекта имеет огромное значение не только для удовлетворения религиозных потребностей мусульманской общины,"], "f05": ["Проект 'Возьми сироту на попечение - 2026'. Цель - сбор денежных средств на содержание 700 детей-сирот, проживающих в Ливане и в Газе.", "Мы продолжаем опеку 700 сирийских и палестинских детей, ежемесячное содержание которых составляет 5 000 руб. на одного ребёнка.", "Необходимо найти опекуна для каждого ребенка-сироты. Вы можете взять опеку над ребенком, оплатив за него:", "5 000 руб. - ежемесячно.", "ИЛИ", "15 000 руб. - ежеквартально.", "Если вы оплачиваете впервые и хотите взять сироту на попечение, просим вас связаться с нами по телефону +7 (926)464-24-68, чтобы мы закрепили за вами ребенка.", "Сбор средств в проекте 'Возьми сироту на попечение - 2026' - одна из возможностей заслужить милость Всевышнего Аллаха и помочь нуждающимся детям, лишенным родительской любви и заботы.", "Суммы, отличные от указанных, будут использованы как садака (милостыня).", "Все средства, которые будут собраны более необходимой суммы, будут направлены на другие благотворительные проекты Фонда."], "f12": ["Ассаламу Алейкум Ва Рахматуллахи Ва Баракатух, дорогие братья и сестры!", "Сегодня перед нами стоит важная задача - сохранить светлое наследие наших предков и обеспечить достойное образование нашим детям!", "Вторая соборная мечеть города Ульяновск - это не только место поклонения, а целый образовательный центр, объединяющий разные поколения верующих.", "Здесь дети получают знания, необходимые для духовного роста и гармоничного развития личности. Мы учим детей читать Коран, изучаем основы религии, даем светское образование, развиваем способности к программированию и организуем совместные мероприятия, укрепляющие братские связи внутри общины.", "🟢Но самое главное - всё это становится возможным благодаря вашей поддержке и участию каждого из вас. Ваш вклад помогает создавать условия для воспитания нового поколения осознанных и всесторонне развитых мусульман. Именно сообща, сплотившись вокруг общей цели, мы сможем Ин ша Аллах, построить второй корпус школы, способствующий расширению образовательного пространства и укреплению позиций исламского образования в нашем городе."], "f17": ["Закят - обязательные при определенных условиях финансовые, а также иные отчисления, производимые раз в году в пользу малоимущих и социально незащищённых групп граждан.", "Выплата милостыни - проявление культуры и цивилизованности с многовековой историей. Однако сегодня приобщение, а точнее возвращение к этому истоку человеческого милосердия и гуманизма, понимание его значимости, должно происходить постепенно, шаг за шагом. Важно учитывать менталитет, уровень образованности и духовности людей, разъяснять, что лучшие традиции меценатства и благотворительности, существующие в мире, начинались в мусульманской среде еще 14 веков (!) назад.", "Собранные средства будут направлены на реализацию трех направлений фонда: Помощь нуждающимся, Международные проекты, а также Социальные и просветительские проекты.", "В рамках направления 'Помощь нуждающимся' мы оплачиваем лечение и дорогостоящие операции, приобретаем медицинское оборудование, лекарства, а также оплачиваем реабилитации детям с ДЦП."], "f01": ["Московская Мемориальная мечеть на Поклонной горе была построена в 1997 году. Вот уже 26 лет она служит во благо верующих: пятничные намазы, праздничные богослужения и проповеди дают прихожанам покой душе, источник знаний и праведное окружение!", "Как и любое крупное сооружение мечеть нуждается в поддержке. С этим связано множество расходов по содержанию и обеспечению ее жизнедеятельности. Сюда относятся коммунальные платежи, охрана и ремонт.", "Благотворительный фонд 'Закят' объявляет сбор, участвуя в котором вы можете поддержать Мемориальную мечеть Москвы.", "У нас есть уникальная возможность совершить садака джария. По милости Всевышнего все благотворители будут получать вознаграждения до тех пор, пока мечеть приносит пользу верующим. Представьте, за каждую прочитанную из Священного Корана букву, за каждый намаз в мечети Аллах приумножит ваши пожертвования.", "Давайте используем наш шанс заслужить довольство Всевышнего и сделать чашу весов благодеяний тяжелее."], "f08": ["Программа 'STOP голод' предназначена для оказания временной продуктовой помощи семьям, оказавшимся в трудной жизненной ситуации, уровень достатка которых ниже прожиточного минимума. В основном, это матери-одиночки с двумя и более детьми, одинокие старики, лишившиеся поддержки родственников, а также инвалиды.", "Цель программы заключается в том, чтобы обеспечить этим семьям базовые продуктовые запасы, а также помочь им в выплате долгов, образовавшихся в близлежащих продуктовых магазинах.", "В рамках программы ежемесячно проходят акции по развозу продуктов с привлечением волонтеров. Основной принцип программы 'STOP голод' - помощь носит временный характер, чтобы не воспитывать иждивенчество. Это означает, что помощь будет предоставлена на определенный период времени, в течение которого семьи смогут восстановить свою финансовую устойчивость и самостоятельно обеспечивать себя.", "Пожалуйста, помогите нам обеспечить подопечных пропитанием в течение полугода!"], "f09": ["Сбор для Ирбаина", "В срочной помощи и поддержке братьев и сестёр, всех неравнодушных людей нуждается 60-летний Ирбаин Абдуллаев.", "Долгие годы Ирбаин мучается от онкологического заболевания - рака спинного мозга. По состоянию здоровья он не может работать, чтобы прокормить детей.", "Мать бросила семью, оставив двоих детей с тяжело больным отцом. Ирбаин вынужден просить милостыню у прохожих, чтобы прокормить детей и оплачивать комнату в коммуналке.", "У семьи нет собственного жилья. Из-за нехватки средств над больным отцом и его детьми постоянная угроза оказаться на улице. Семья остро нуждается в вашей помощи!", "Не оставайтесь в стороне внесите любой посильный вклад, чтобы помочь неимущей семье решить жилищный вопрос, не оставшись без крыши над головой.", "Срочный сбор на сумму 1 000 000 рублей.", "Ради Аллагьа ﷲ совершите благо - важен каждый рубль садака, ду'а и репост!", "Поддержите этот сбор, рассказав о нём и поделившись ссылкой со своими друзьями и родными."], "f10": ["Маленькой Нурай 3 года она из Алматы. Девочка очень хочет жить обычной детской жизнью - бегать, смеяться. Но тяжелый диагноз 'гидроцефалия' не дает ей этого шанса. Без срочного лечения состояние девочки будет ухудшаться с каждым днем.", "Семья Бакдаулет уже прошла важный этап: Нурай обследована в престижной Детской хирургии имени академика Ю.Е. Вельтищева. Врачи готовы провести необходимое лечение, которое даст Нурай шанс на полноценную жизнь. Но есть одно 'но': у родителей нет средств даже на то, чтобы долететь до клиники, не говоря уже о самой операции и послеоперационном периоде. Заработок семьи небольшой, и все сбережения уже потрачены на первичную диагностику.", "Ваше любое пожертвование может стать решающим вкладом в ее судьбу. Время уходит, но мы можем успеть вместе!"], "f13": ["26 июля 2026 года стихия безжалостно стерла с лица земли целые улицы в поселке Нижний Баскунчак, Астраханской области. Из-за ураганного ветра огонь молниеносно прошелся по жилому сектору, уничтожив 8 домов и повредив еще 25. Четыре семьи, обратившиеся к нам, а это Мустафина Зайтуна, Арстангалиева Айнаш, Саринов Кармен, Журавлев Александр. Лишились не просто стен - они потеряли всё: кров, нажитое имущество и самые необходимые для жизни вещи.", "Перед нами люди, оказавшиеся в критической ситуации. У них нет достаточных средств, чтобы самостоятельно начать стройку заново. Им нужны стройматериалы, чтобы отстроить свои дома, вернуть тепло и безопасность для своих детей и близких.", "Мы не можем позволить, чтобы эти семьи остались без будущего на пепелище. Дайте им шанс вернуться в свои стены! Ваша помощь - это кирпичи для нового дома, это крыша над головой для тех, кто потерял всё."], "f16": [], "f14": ["С 2020 по 2023 год лагерь был полностью остановлен из за пандемии. Время не щадило: здания обветшали, коммуникации пришли в негодность. За два последних года мы сделали немало, но капитальный и косметический ремонт ещё не завершён.", "Сейчас срочно требуются средства на стройматериалы, оборудование, мебель, постельное бельё, посуду и системы безопасности. Без этого лагерь не сможет принять детей.", "Помогите вернуть детям радость отдыха, здоровья и заботы! Ваше пожертвование - это вклад в безопасное и счастливое детство."], "f19": ["Уважаемые братья и сестры, сегодня у нас есть с вами возможность поддержать очень важный проект!", "Чувствуя необходимость в создании для мусульман доступных мест для совершения молитв, ДУМ Москвы задалось задачей открытия молельных комнат. Конечно не всё просто, но шаг за шагом, духовное управление открывает и поддерживает работу этих комнат, общее количество которых достигло 14. Они расположены в аэропортах, больницах и других социальных учреждениях. Содержание всех этих немногочисленных комнат обходится более 4 миллионов рублей в год!", "Уважаемые братья и сестры, сегодня у вас есть возможность внести вклад в это благое дело! Только представьте, как ваша садака будет способствовать тому, что сотни, тысячи людей будут иметь возможность выполнять одно из повелений Всевышнего - читать намаз!"]};
+
+const pct = f => Math.min(100, Math.round(f.cur / f.tgt * 100));
+const SHARE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/><path d="M4 13v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/></svg>';
+// mode: 'rail' — витрина на главной (лёгкая кнопка), 'tile' — рабочий экран садаки
+const inner = (f, i, mode) =>
+  '<div class="ph"><img src="'+IMG[f.img]+'" alt="" draggable="false" loading="lazy"></div>' +
+  '<div class="bd"><h4>'+f.name+'</h4><p class="org">'+f.org+'</p>' +
+  '<div class="bar"><i data-pct="'+pct(f)+'"></i></div>' +
+  '<div class="sums-lbl"><span>Собрали</span><span>Нужно</span></div>' +
+  '<div class="sums"><b>'+rub(f.cur)+'</b><span>'+rub(f.tgt)+'</span></div>' +
+  '<div class="act"><button class="share press" aria-label="Поделиться сбором">' + SHARE_ICON + '</button>' +
+  '<button class="pill press' + (mode === 'rail' ? ' ghost' : '') + '" data-donate="' + i + '">Помочь</button></div>' +
+  '</div>';
+
+/* один проход отрисовки — дальше DOM не пересобирается */
+const rail = document.getElementById('rail');
+FUNDS.forEach((f,i) => {
+  const el = document.createElement('article'); el.className = 'slide';
+  el.innerHTML = inner(f,i,'rail'); rail.appendChild(el);
+});
+const tiles = document.getElementById('tiles');
+FUNDS.forEach((f,i) => {
+  const el = document.createElement('article'); el.className = 'tile up';
+  el.style.transitionDelay = (i % 3) * 70 + 'ms';
+  el.innerHTML = inner(f,i,'tile'); tiles.appendChild(el);
+});
+
+/* ---------- заголовок собирается по словам ---------- */
+function splitWords(el){
+  if (el._split) return; el._split = true;
+  const frag = document.createDocumentFragment();
+  [...el.childNodes].forEach(n => {
+    if (n.nodeType === 3){
+      n.textContent.split(/(\s+)/).forEach(t => {
+        if (!t) return;
+        if (!t.trim()){ frag.appendChild(document.createTextNode(t)); return; }
+        const w = document.createElement('span'); w.className = 'w'; w.textContent = t;
+        frag.appendChild(w);
+      });
+    } else frag.appendChild(n.cloneNode(true));   // <br> сохраняем как есть
+  });
+  el.textContent = ''; el.appendChild(frag);
+}
+function playWords(el){
+  splitWords(el);                      // разбиваем СРАЗУ, не дожидаясь кадра
+  const ws = [...el.querySelectorAll('.w')];
+  if (reduced){ ws.forEach(w => w.classList.add('in')); return; }
+  ws.forEach((w,i) => w.style.transitionDelay = (i * 70) + 'ms');
+  const go = () => ws.forEach(w => {
+    w.classList.add('in');
+    // как только слово доиграло — отпускаем слой композитора
+    w.addEventListener('transitionend', () => w.classList.add('done'), {once:true});
+  });
+  requestAnimationFrame(() => requestAnimationFrame(go));
+  // страховка: если кадры не идут (фоновая вкладка), текст всё равно покажется
+  setTimeout(go, 1200);
+}
+
+/* ---------- страница сбора ---------- */
+const DAYS = {f00:34, f05:128, f12:96, f17:61, f01:128, f08:47, f09:22, f10:39, f13:18, f16:73, f14:29, f19:128};
+let curFund = 0;
+
+function openFund(i){
+  const f = FUNDS[i]; if (!f) return;
+  curFund = i;
+  const p = pct(f), left = f.tgt - f.cur, days = DAYS[f.img] || 30;
+
+  document.getElementById('fImg').src = IMG[f.img];
+  document.getElementById('fImg').alt = f.name;
+  document.getElementById('fCat').textContent = f.cat;
+  document.getElementById('fName').textContent = f.name;
+  document.getElementById('fMeta').innerHTML =
+    '<span>Фонд · <b>'+f.org+'</b></span>' +
+    '<span>Осталось · <b>'+days+' дн.</b></span>' +
+    '<span>Категория · <b>'+f.cat+'</b></span>';
+
+  const paras = DESC[f.img] || [];
+  document.getElementById('fText').innerHTML = paras.length
+    ? paras.map(t => '<p>'+t+'</p>').join('')
+    : '<p>Фонд собирает средства на эту цель. Подробное описание появится, как только организатор его опубликует.</p>';
+
+  document.getElementById('fCur').textContent = rub(f.cur);
+  document.getElementById('fTgt').textContent = 'собрано из ' + rub(f.tgt);
+  document.getElementById('fPct').textContent = p + '% собрано';
+  document.getElementById('fLeft').textContent = 'осталось ' + rub(left);
+  document.getElementById('fShare').innerHTML = SHARE_ICON;
+  document.getElementById('fDoc').innerHTML =
+    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 3.5h9l5 5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5v5h5"/></svg>' +
+    '<span>Комиссия сервиса 0 %. Сбор ведёт зарегистрированный фонд, по нему публикуется отчётность.</span>';
+
+  // другие сборы — три соседних
+  const more = document.getElementById('fMore'); more.innerHTML = '';
+  FUNDS.filter((_, k) => k !== i).slice(0, 3).forEach(g => {
+    const k = FUNDS.indexOf(g);
+    const el = document.createElement('article'); el.className = 'tile';
+    el.innerHTML = inner(g, k, 'tile'); more.appendChild(el);
+  });
+
+  location.hash = '/sbor/' + i;   // у сбора появляется собственный адрес
+  go('fund');
+  const bar = document.getElementById('fBar');
+  bar.style.width = '0%';
+  setTimeout(() => bar.style.width = p + '%', 180);
+  more.querySelectorAll('.bar i').forEach(b => {
+    b.style.transition = 'width 1.1s cubic-bezier(.2,.9,.25,1)';
+    setTimeout(() => b.style.width = b.dataset.pct + '%', 220);
+  });
+}
+
+/* ---------- счётчики и проявление ---------- */
+function count(el){
+  if (el._d) return; el._d = true;
+  const to = +el.dataset.count, suf = el.dataset.suffix || '';
+  if (reduced){ el.textContent = to.toLocaleString('ru-RU').replace(/,/g,' ') + suf; return; }
+  const t0 = performance.now(), D = 1400;
+  (function tick(t){
+    const p = Math.min(1,(t-t0)/D), e = 1 - Math.pow(1-p,4);
+    el.textContent = Math.round(to*e).toLocaleString('ru-RU').replace(/,/g,' ') + suf;
+    if (p < 1) requestAnimationFrame(tick);
+  })(t0);
+}
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('in');
+  e.target.querySelectorAll('[data-count]').forEach(count);
+  if (e.target.dataset.count) count(e.target);
+  e.target.querySelectorAll('.bar i').forEach(b => {
+    b.style.transition = 'width 1.1s cubic-bezier(.2,.9,.25,1)';
+    setTimeout(() => b.style.width = b.dataset.pct + '%', 140);
+  });
+  io.unobserve(e.target);
+}), {threshold:.14, rootMargin:'0px 0px -6% 0px'});
+const watch = () => document.querySelectorAll('.up:not(.in),[data-count]:not(.in)').forEach(el => io.observe(el));
+watch();
+
+/* какая страница открыта — решает имя файла, конкретный сбор — адресная строка */
+const START = /sadaka/i.test(location.pathname) ? 'sadaka' : 'home';
+function applyHash(){
+  const m = (location.hash || '').match(/\/sbor\/(\d+)/);
+  if (m && FUNDS[+m[1]]) { openFund(+m[1]); return true; }
+  return false;
+}
+document.querySelectorAll('.page').forEach(p => p.classList.toggle('on', p.id === 'p-' + START));
+document.documentElement.removeAttribute('data-page');   // дальше страницами управляет класс
+if (!applyHash()){
+  const h = document.querySelector('#p-' + START + ' [data-words]'); if (h) playWords(h);
+}
+// первый экран показываем сразу: ждать кадра нельзя — в фоновой вкладке его не будет,
+// и главная кнопка осталась бы невидимой
+document.querySelectorAll('#p-' + START + ' .up').forEach(el => {
+  if (el.getBoundingClientRect().top < innerHeight * 1.05){
+    el.classList.add('in'); el.querySelectorAll('[data-count]').forEach(count);
+    if (el.dataset.count) count(el);
+  }
+});
+// общая страховка: что бы ни случилось с кадрами, через 1.6 с контент виден
+setTimeout(() => document.querySelectorAll('.up:not(.in)').forEach(el => {
+  if (el.getBoundingClientRect().top < innerHeight * 1.1) el.classList.add('in');
+}), 1600);
+document.querySelectorAll('.reveal-shot [data-count]').forEach(el => io.observe(el));
+document.querySelectorAll('.rail .bar i').forEach(b => io.observe(b.closest('.slide')));
+
+/* ---------- отклик на нажатие: сразу, а не по клику ---------- */
+document.addEventListener('pointerdown', e => {
+  const p = e.target.closest('.press'); if (p) p.classList.add('down');
+}, {passive:true});
+['pointerup','pointercancel','pointerleave'].forEach(ev =>
+  document.addEventListener(ev, () => document.querySelectorAll('.press.down').forEach(p => p.classList.remove('down')), {passive:true}));
+
+/* ---------- прокрутка: фото раскрывается, платежи загораются ---------- */
+const shot = document.getElementById('shot');
+const frame = shot ? shot.querySelector('.frame') : null;
+const heroImg = frame ? frame.querySelector('img') : null;
+const payHead = document.querySelector('#paySec .pay-head');
+const paySec = document.getElementById('paySec');
+const payEls = [...document.querySelectorAll('#pays .pay')];
+let ticking = false;
+/* Логика вынесена отдельно: её можно вызвать напрямую, минуя флаг ожидания кадра.
+   Иначе при загрузке в фоновой вкладке (кадры не идут) флаг залипал бы в true
+   и параллакс не включился бы уже никогда. */
+function applyScroll(){
+  {
+    if (frame && !reduced){
+      const r = shot.getBoundingClientRect();
+      // 0 при появлении снизу → 1 когда доехал до верха
+      const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height * .35)));
+      const e = 1 - Math.pow(1 - p, 3);
+      frame.style.setProperty('--sc', (.9 + .1 * e).toFixed(4));
+      // фото внутри рамки идёт медленнее самой рамки — отсюда глубина
+      const q = Math.max(-1, Math.min(1, (r.top + r.height/2 - innerHeight/2) / innerHeight));
+      heroImg.style.transform = 'translate3d(0,' + (q * 40).toFixed(1) + 'px,0)';
+    }
+    if (paySec){
+      const r = paySec.getBoundingClientRect();
+      const total = r.height - innerHeight;
+      const p = Math.min(1, Math.max(0, -r.top / (total || 1)));
+      payEls.forEach((el,i) => {
+        // каждая карточка приезжает снизу по своему отрезку прокрутки
+        const local = Math.min(1, Math.max(0, p * 5.1 - i * .9));
+        const e = 1 - Math.pow(1 - local, 3);
+        el.classList.toggle('on', local > .03);
+        el.style.transform = reduced ? 'none'
+          : 'translate3d(0,' + ((1 - e) * 30).toFixed(1) + 'px,0) scale(' + (.962 + .038 * e).toFixed(4) + ')';
+      });
+      if (payHead && !reduced) payHead.style.transform = 'translate3d(0,' + (-p * 26).toFixed(1) + 'px,0)';
+    }
+  }
+}
+function onScroll(){
+  if (ticking) return; ticking = true;
+  requestAnimationFrame(() => { ticking = false; applyScroll(); });
+}
+addEventListener('scroll', onScroll, {passive:true});
+addEventListener('resize', onScroll, {passive:true});
+applyScroll();                    // первый прогон — сразу, без ожидания кадра
+addEventListener('visibilitychange', () => { if (!document.hidden){ ticking = false; applyScroll(); } });
+
+/* ============================================================
+   Лента сборов: захват один-к-одному, резинка на краях,
+   бросок по проекции инерции, пружинная посадка.
+   ============================================================ */
+(() => {
+  const vp = document.getElementById('railVp');
+  if (!vp) return;
+  const track = rail;
+  const sp = new Spring(0, {response:.5, damping:1});
+  let x = 0, min = 0, dragging = false, id = null, grabX = 0, grabY = 0, startX = 0, hist = [], raf = 0;
+  let axis = null;   // null — направление ещё не ясно, 'x' — тянем ленту, 'y' — это прокрутка страницы
+
+  const innerW = () => {
+    const cs = getComputedStyle(vp);
+    return vp.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  };
+  const bounds = () => { min = Math.min(0, innerW() - track.scrollWidth); };
+  bounds(); addEventListener('resize', bounds, {passive:true});
+
+
+  const slides = [...track.children];
+  const shots = slides.map(s => s.querySelector('.ph img'));
+  let offs = [], halves = [];
+  const measure = () => { offs = slides.map(s => s.offsetLeft); halves = slides.map(s => s.offsetWidth / 2); };
+  measure(); addEventListener('resize', measure, {passive:true});
+
+  function draw(){
+    track.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
+    if (reduced) return;
+    // фото внутри карточки чуть отстаёт от неё — карточки читаются объёмными
+    const c = innerW() / 2, span = innerW() * .8;
+    for (let i = 0; i < slides.length; i++){
+      const d = Math.max(-1, Math.min(1, (offs[i] + x + halves[i] - c) / span));
+      shots[i].style.transform = 'translate3d(' + (-d * 15).toFixed(1) + 'px,0,0)';
+    }
+  }
+
+  function loop(){
+    const now = performance.now();
+    const dt = Math.min(.05, (now - (loop.t || now)) / 1000); loop.t = now;
+    x = sp.step(dt); draw();
+    if (!sp.settled) raf = requestAnimationFrame(loop);
+    else { x = sp.target; draw(); raf = 0; }
+  }
+  const run = () => { if (!raf){ loop.t = performance.now(); raf = requestAnimationFrame(loop); } };
+
+  vp.addEventListener('pointerdown', e => {
+    if (e.target.closest('button')) return;      // кнопке «Помочь» не мешаем
+    dragging = true; id = e.pointerId; axis = null;
+    cancelAnimationFrame(raf); raf = 0;
+    grabX = e.clientX; grabY = e.clientY; startX = x;   // помним, ГДЕ схватили
+    hist = [{x:e.clientX, t:performance.now()}];
+    // указатель НЕ захватываем сразу: пока не ясно направление, страница
+    // должна прокручиваться пальцем без нашего вмешательства
+  });
+  vp.addEventListener('pointermove', e => {
+    if (!dragging || e.pointerId !== id) return;
+    const dx = e.clientX - grabX, dy = e.clientY - grabY;
+
+    if (axis === null){
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;   // ещё не понятно — ничего не делаем
+      axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      railDragged = true;                                  // любое движение — уже не клик
+      if (axis === 'y'){ dragging = false; return; }       // вертикаль отдаём странице целиком
+      vp.classList.add('grabbing');
+      try { vp.setPointerCapture(id); } catch(_){}         // горизонталь — теперь наша
+    }
+
+    let nx = startX + dx;                        // 1:1 за пальцем
+    if (nx > 0) nx = rubber(nx, vp.clientWidth);                 // резинка слева
+    else if (nx < min) nx = min + rubber(nx - min, vp.clientWidth); // и справа
+    x = nx; draw();
+    hist.push({x:e.clientX, t:performance.now()});
+    if (hist.length > 6) hist.shift();
+  });
+  function release(e){
+    if (!dragging || (e && e.pointerId !== id)) return;
+    dragging = false; vp.classList.remove('grabbing');
+    setTimeout(() => railDragged = false, 0);    // сбрасываем уже после клика
+    try { vp.releasePointerCapture(id); } catch(_){}
+    if (axis !== 'x') { axis = null; return; }   // вертикальный жест — ленту не бросаем
+    axis = null;
+    const a = hist[0], b = hist[hist.length-1];
+    const dt = b && a ? (b.t - a.t) : 0;
+    const vel = dt > 0 ? (b.x - a.x) / dt * 1000 : 0;   // px/сек
+    let dest = x + project(vel);                        // куда бы доехало
+    dest = Math.max(min, Math.min(0, dest));            // не за границы
+    sp.x = x; sp.v = vel; sp.target = dest;             // скорость передаём анимации
+    sp.set(.55, Math.abs(vel) > 240 ? .82 : 1);         // бросок — с лёгким перелётом
+    run();
+  }
+  vp.addEventListener('pointerup', release);
+  vp.addEventListener('pointercancel', release);
+  // колесо/трекпад по горизонтали — тоже лента
+  vp.addEventListener('wheel', e => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault(); cancelAnimationFrame(raf); raf = 0;
+    x = Math.max(min, Math.min(0, x - e.deltaX)); sp.x = x; sp.v = 0; sp.target = x; draw();
+  }, {passive:false});
+})();
+
+/* ============================================================
+   Нижний лист: тянется за ручку, резинится вверху,
+   закрывается по СКОРОСТИ броска, а не по расстоянию,
+   и его можно перехватить в любой момент анимации.
+   ============================================================ */
+const sheet = document.getElementById('sheet'), scrim = document.getElementById('scrim');
+const sheetSpring = new Spring(1, {response:.42, damping:1});   // 0 = открыт, 1 = убран
+let sheetRaf = 0, sheetOpen = false;
+
+function paint(v){
+  // +44px запаса: на десктопе лист приподнят на bottom:24px и без запаса торчал краем
+  sheet.style.transform = 'translate(-50%, calc(' + (v*100).toFixed(3) + '% + ' + (v*44).toFixed(1) + 'px))';
+  const k = 1 - Math.min(1, Math.max(0, v));
+  scrim.style.background = 'rgba(0,0,0,' + (k * .34).toFixed(3) + ')';
+  scrim.classList.toggle('on', k > .01);
+}
+function sheetLoop(){
+  const now = performance.now();
+  const dt = Math.min(.05, (now - (sheetLoop.t || now)) / 1000); sheetLoop.t = now;
+  paint(sheetSpring.step(dt));
+  if (!sheetSpring.settled) sheetRaf = requestAnimationFrame(sheetLoop);
+  else { paint(sheetSpring.target); sheetRaf = 0; }
+}
+const sheetRun = () => { if (!sheetRaf){ sheetLoop.t = performance.now(); sheetRaf = requestAnimationFrame(sheetLoop); } };
+function openSheet(){ sheetOpen = true; document.documentElement.classList.add('sheet-open');
+  sheetSpring.set(.44, .84); sheetSpring.target = 0; sheetRun(); }
+function closeSheet(){ sheetOpen = false; document.documentElement.classList.remove('sheet-open');
+  sheetSpring.set(.4, 1); sheetSpring.target = 1; sheetRun(); }
+paint(1);
+
+(() => {
+  const grab = document.getElementById('grab');
+  let drag = false, id = null, y0 = 0, v0 = 0, hist = [], H = 1;
+  const heightPx = () => sheet.offsetHeight || 1;
+
+  grab.addEventListener('pointerdown', e => {
+    // порядок важен: сорвись захват — состояние уже записано, жест не улетит
+    drag = true; id = e.pointerId;
+    sheet.classList.add('dragging');
+    cancelAnimationFrame(sheetRaf); sheetRaf = 0;
+    H = heightPx();
+    y0 = e.clientY; v0 = sheetSpring.x;     // стартуем от ТЕКУЩЕГО положения на экране
+    hist = [{y:e.clientY, t:performance.now()}];
+    try { grab.setPointerCapture(id); } catch(_){}
+    e.preventDefault();
+  });
+  grab.addEventListener('pointermove', e => {
+    if (!drag || e.pointerId !== id) return;
+    let v = v0 + (e.clientY - y0) / H;       // 1:1 за пальцем
+    if (v < 0) v = -rubber(-v * H, H) / H;   // вверх — резинка
+    v = Math.max(-.3, Math.min(1.35, v));    // страховка от выброса
+    sheetSpring.x = v; sheetSpring.v = 0; paint(v);
+    hist.push({y:e.clientY, t:performance.now()});
+    if (hist.length > 6) hist.shift();
+  });
+  function up(e){
+    if (!drag || (e && e.pointerId !== id)) return;
+    drag = false; sheet.classList.remove('dragging');
+    try { grab.releasePointerCapture(id); } catch(_){}
+    const a = hist[0], b = hist[hist.length-1];
+    const dt = b && a ? (b.t - a.t) : 0;
+    const velPx = dt > 0 ? (b.y - a.y) / dt * 1000 : 0;   // px/сек вниз
+    const projected = sheetSpring.x + project(velPx) / H;  // куда доехало бы
+    sheetSpring.v = velPx / H;                             // скорость → в пружину
+    // решает ПРОЕКЦИЯ броска, а не то, докуда дотянули
+    if (projected > .38) closeSheet(); else openSheet();
+  }
+  grab.addEventListener('pointerup', up);
+  grab.addEventListener('pointercancel', up);
+})();
+
+document.addEventListener('click', e => {
+  // карточка целиком — ссылка на сбор; кнопки внутри неё имеют приоритет
+  const card = e.target.closest('.tile, .slide');
+  if (card && !e.target.closest('button') && !railDragged){
+    const btn = card.querySelector('[data-donate]');
+    if (btn){ openFund(+btn.dataset.donate); return; }
+  }
+  const d = e.target.closest('[data-donate]');
+  if (d){
+    const f = FUNDS[+d.dataset.donate];
+    document.getElementById('shImg').src = IMG[f.img];
+    document.getElementById('shName').textContent = f.name;
+    document.getElementById('shOrg').textContent = f.org;
+    openSheet();
+  }
+  if (e.target === scrim) closeSheet();
+  const back = e.target.closest('.f-back');   // «Все сборы» — без перезагрузки
+  if (back){ e.preventDefault(); location.hash = ''; go('sadaka'); }
+});
+addEventListener('hashchange', () => { if (!applyHash()) go('sadaka'); });
+document.getElementById('fPay').addEventListener('click', () => {
+  const f = FUNDS[curFund];
+  document.getElementById('shImg').src = IMG[f.img];
+  document.getElementById('shName').textContent = f.name;
+  document.getElementById('shOrg').textContent = f.org;
+  openSheet();
+});
+addEventListener('keydown', e => { if (e.key === 'Escape' && sheetOpen) closeSheet(); });
+
+/* ---------- сегмент: шторка на пружине ---------- */
+(() => {
+  const seg = document.getElementById('seg'), th = document.getElementById('segTh');
+  const s = new Spring(0, {response:.34, damping:.86});
+  let raf = 0;
+  const loop = () => {
+    const now = performance.now();
+    const dt = Math.min(.05,(now-(loop.t||now))/1000); loop.t = now;
+    th.style.transform = 'translateX(' + (s.step(dt)*100).toFixed(2) + '%)';
+    if (!s.settled) raf = requestAnimationFrame(loop);
+    else { th.style.transform = 'translateX(' + (s.target*100) + '%)'; raf = 0; }
+  };
+  seg.querySelectorAll('button').forEach((b,i) => b.addEventListener('click', () => {
+    seg.querySelectorAll('button').forEach((x,j) => x.setAttribute('aria-pressed', i===j));
+    s.target = i; if (!raf){ loop.t = performance.now(); raf = requestAnimationFrame(loop); }
+    sync();
+  }));
+})();
+
+/* ---------- сумма ---------- */
+const amt = document.getElementById('amt'), pay = document.getElementById('shPay'), quick = document.getElementById('quick');
+
+const digits = v => String(v).replace(/\D/g, '');
+const groups = v => (+digits(v) || 0).toLocaleString('ru-RU').replace(/,/g, ' ');
+/* Пока поле в фокусе — только цифры, чтобы курсор не спотыкался о знак.
+   Как отпустили — показываем «1 000 ₽». */
+function showAmount(focused){
+  const n = digits(amt.value);
+  amt.value = focused ? groups(n) : (n ? groups(n) + ' ₽' : '');
+}
+function sync(){
+  const v = +digits(amt.value) || 0;
+  amt.classList.toggle('long', amt.value.length > 11);   // страховка для очень больших сумм
+  const monthly = document.querySelector('#seg button:nth-of-type(2)')?.getAttribute('aria-pressed') === 'true';
+  pay.textContent = v ? 'Помочь · ' + rub(v) + (monthly ? ' в месяц' : '') : 'Укажите сумму';
+}
+quick.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  quick.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  amt.value = groups(b.textContent) + ' ₽';
+  sync();
+});
+amt.addEventListener('input', sync);
+amt.addEventListener('focus', () => showAmount(true));
+amt.addEventListener('blur',  () => { showAmount(false); sync(); });
+sync();
+
+document.querySelectorAll('.chips').forEach(c => c.addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  c.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === b));
+}));
+
+/* ---------- переключение страниц прототипа ---------- */
+function go(name){
+  if (sheetOpen) closeSheet();
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('on', p.id === 'p-' + name));
+  scrollTo({top:0, behavior:'instant'});
+  watch(); ticking = false; applyScroll();
+  const h = document.querySelector('#p-' + name + ' [data-words]');
+  if (h){ h.querySelectorAll('.w').forEach(w => { w.classList.remove('in'); w.style.transitionDelay = ''; }); playWords(h); }
+  requestAnimationFrame(() => document.querySelectorAll('#p-' + name + ' .up').forEach(el => {
+    if (el.getBoundingClientRect().top < innerHeight){
+      el.classList.add('in');
+      el.querySelectorAll('[data-count]').forEach(count);
+      if (el.dataset.count) count(el);
+      el.querySelectorAll('.bar i').forEach(b => { b.style.transition='width 1.1s cubic-bezier(.2,.9,.25,1)'; setTimeout(()=>b.style.width=b.dataset.pct+'%',160); });
+    }
+  }));
+}
+})();
+</script>

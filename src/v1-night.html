@@ -1,0 +1,994 @@
+<title>Шукру — Ночной михраб</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;600&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   ШУКРУ · Вариант 1 «Ночной михраб»
+   Тёмный премиум. Бренд #07BC8E + латунь. Фото вместо клипарта.
+   ============================================================ */
+
+:root{
+  --ink:#05100D;          /* фон */
+  --ink-2:#0A1815;        /* поверхность */
+  --ink-3:#102420;        /* поднятая поверхность */
+  --line:rgba(255,255,255,.09);
+  --line-2:rgba(255,255,255,.16);
+
+  --brand:#07BC8E;        /* фирменный */
+  --brand-lit:#12DCA6;    /* он же, поднятый для тёмного фона */
+  --brand-dim:rgba(7,188,142,.14);
+
+  --brass:#D8BC84;        /* латунь — цифры и акценты */
+  --brass-dim:rgba(216,188,132,.16);
+
+  --tx:#EAF3F0;
+  --tx-2:#94ABA4;
+  --tx-3:#63807A;
+
+  --r-card:20px;
+  --r-btn:10px;
+
+  --ease:cubic-bezier(.23,1,.32,1);
+  --ease-io:cubic-bezier(.77,0,.175,1);
+
+  --shell:1240px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html{overflow-x:clip}
+body{
+  margin:0;background:var(--ink);color:var(--tx);max-width:100vw;
+  font-family:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-weight:400;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+/* --- гирих: восьмиконечная звезда, еле заметно --- */
+.girih{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'%3E%3Cg fill='none' stroke='%2312DCA6' stroke-width='1.1'%3E%3Crect x='18' y='18' width='52' height='52'/%3E%3Crect x='18' y='18' width='52' height='52' transform='rotate(45 44 44)'/%3E%3Ccircle cx='44' cy='44' r='7'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:88px 88px;
+}
+
+/* ---------- типографика ---------- */
+.display{
+  font-family:'Unbounded',sans-serif;font-weight:200;
+  letter-spacing:-.045em;line-height:1.02;
+  font-size:clamp(2.15rem,4vw,3.6rem);
+  margin:0;
+}
+.display b{font-weight:600;letter-spacing:-.05em}
+.display em{font-style:normal;color:var(--brass)}
+h2.sec{
+  font-family:'Unbounded',sans-serif;font-weight:200;
+  font-size:clamp(1.9rem,3.6vw,3.1rem);letter-spacing:-.04em;line-height:1.08;margin:0;
+}
+h2.sec b{font-weight:600}
+.eyebrow{
+  font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--brand-lit);margin:0 0 18px;display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--brand-lit);opacity:.6}
+.lede{font-size:clamp(1rem,1.25vw,1.16rem);color:var(--tx-2);line-height:1.65;margin:20px 0 0;max-width:52ch}
+
+/* ---------- каркас ---------- */
+.shell{width:min(var(--shell),calc(100% - 48px));margin-inline:auto}
+@media(max-width:640px){.shell{width:calc(100% - 36px)}}
+section{position:relative}
+
+/* ---------- шапка ---------- */
+.hdr{
+  position:sticky;top:0;z-index:60;
+  background:rgba(5,16,13,.72);
+  backdrop-filter:blur(22px) saturate(160%);
+  -webkit-backdrop-filter:blur(22px) saturate(160%);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s var(--ease),background .3s var(--ease);
+}
+.hdr.stuck{border-bottom-color:var(--line);background:rgba(5,16,13,.9)}
+.hdr-in{display:flex;align-items:center;gap:34px;height:74px}
+.logo{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.logo-mark{width:26px;height:26px;flex-shrink:0}
+.logo-tx{
+  font-family:'Unbounded',sans-serif;font-weight:600;font-size:1.06rem;
+  letter-spacing:.07em;
+}
+.logo-sub{color:var(--tx-3);font-size:.82rem;letter-spacing:.02em;margin-left:2px}
+.nav{display:flex;gap:30px;margin-left:auto}
+.nav a{font-size:.92rem;color:var(--tx-2);transition:color .2s var(--ease);position:relative;padding:6px 0}
+.nav a::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--brand-lit);
+  transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease);
+}
+.nav a:hover{color:var(--tx)}
+.nav a:hover::after{transform:scaleX(1)}
+@media(max-width:900px){.nav{display:none}}
+
+/* ---------- кнопки ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:14px 26px;border-radius:var(--r-btn);
+  font-weight:600;font-size:.95rem;letter-spacing:-.01em;
+  transition:transform .16s var(--ease),background .22s var(--ease),box-shadow .28s var(--ease),border-color .22s var(--ease);
+  white-space:nowrap;
+}
+.btn:active{transform:scale(.97)}
+.btn-pri{background:var(--brand);color:#04120E;box-shadow:0 0 0 rgba(7,188,142,0)}
+.btn-pri:hover{background:var(--brand-lit);box-shadow:0 10px 40px -12px rgba(18,220,166,.6)}
+.btn-gho{border:1px solid var(--line-2);color:var(--tx)}
+.btn-gho:hover{border-color:var(--brand-lit);color:var(--brand-lit);background:var(--brand-dim)}
+.btn-lg{padding:17px 32px;font-size:1rem}
+.btn-block{width:100%}
+
+/* ---------- ГЕРОЙ ---------- */
+.hero{padding:clamp(60px,9vw,120px) 0 clamp(70px,8vw,110px);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,5vw,80px);align-items:center}
+@media(max-width:980px){.hero-grid{grid-template-columns:1fr;gap:44px}}
+
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin:30px 0 0}
+.chip{
+  font-size:.8rem;color:var(--tx-2);padding:8px 15px;border-radius:100px;
+  border:1px solid var(--line);background:rgba(255,255,255,.02);
+}
+.chip-brand{color:var(--brand-lit);border-color:rgba(18,220,166,.35);background:var(--brand-dim)}
+.hero-cta{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+
+/* фото-стопка героя */
+.hero-art{position:relative;aspect-ratio:1/1.02}
+@media(max-width:980px){.hero-art{aspect-ratio:4/3;max-width:560px}}
+.ha-frame{
+  position:absolute;border-radius:var(--r-card);overflow:hidden;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.9);
+}
+.ha-frame img{width:100%;height:100%;object-fit:cover}
+.ha-1{inset:0 0 15% 17%;z-index:2}
+.ha-2{left:0;bottom:0;width:46%;aspect-ratio:5/4;z-index:3;border:1px solid rgba(255,255,255,.12)}
+.ha-glow{
+  position:absolute;inset:-14% 0 6% 0;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 55% at 50% 45%,rgba(7,188,142,.34),transparent 70%);
+  filter:blur(46px);
+}
+/* карточка-счётчик поверх фото */
+.ha-stat{
+  position:absolute;right:2%;bottom:8%;z-index:4;
+  background:rgba(10,24,21,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--line-2);border-radius:16px;padding:17px 21px;
+  box-shadow:0 26px 60px -22px rgba(0,0,0,.95);
+}
+@media(max-width:980px){.ha-stat{right:0;bottom:-5%}.ha-1{inset:0 0 18% 22%}.ha-2{width:42%}}
+.ha-stat .n{font-family:'Unbounded',sans-serif;font-weight:300;font-size:1.62rem;letter-spacing:-.03em;color:var(--brass);line-height:1}
+.ha-stat .l{font-size:.74rem;color:var(--tx-2);margin-top:7px;letter-spacing:.03em}
+
+/* ---------- полоса цифр ---------- */
+.figs{border-block:1px solid var(--line);background:linear-gradient(180deg,rgba(7,188,142,.045),transparent)}
+.figs-in{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+@media(max-width:820px){.figs-in{grid-template-columns:repeat(2,1fr)}}
+.fig{background:var(--ink);padding:clamp(26px,3.4vw,42px) clamp(18px,2.4vw,30px)}
+.fig .n{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1.7rem,3.1vw,2.5rem);letter-spacing:-.045em;line-height:1;color:var(--tx)}
+.fig .n .pc{color:var(--brass)}
+.fig .l{font-size:.82rem;color:var(--tx-2);margin-top:11px;line-height:1.45}
+
+/* ---------- секции ---------- */
+.sec-pad{padding:clamp(72px,9vw,132px) 0}
+.sec-head{max-width:64ch;margin-bottom:clamp(38px,4.6vw,64px)}
+
+/* три продукта */
+.prods{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:940px){.prods{grid-template-columns:1fr}}
+.prod{
+  position:relative;border:1px solid var(--line);border-radius:var(--r-card);
+  padding:32px 30px 28px;overflow:hidden;background:var(--ink-2);
+  transition:transform .4s var(--ease),border-color .4s var(--ease),background .4s var(--ease);
+  display:flex;flex-direction:column;min-height:290px;
+}
+.prod::before{
+  content:"";position:absolute;inset:0;opacity:.07;pointer-events:none;
+  background-image:inherit;background-size:88px 88px;
+  -webkit-mask-image:radial-gradient(95% 75% at 80% 6%,#000,transparent 70%);
+  mask-image:radial-gradient(95% 75% at 80% 6%,#000,transparent 70%);
+}
+.prod:hover{transform:translateY(-5px);border-color:var(--line-2);background:var(--ink-3)}
+.prod-i{width:42px;height:42px;color:var(--brand-lit);margin-bottom:22px}
+.prod h3{font-family:'Unbounded',sans-serif;font-weight:400;font-size:1.28rem;letter-spacing:-.03em;margin:0 0 12px}
+.prod p{color:var(--tx-2);font-size:.94rem;margin:0;line-height:1.6}
+.prod .go{margin-top:auto;padding-top:24px;display:flex;align-items:center;gap:9px;color:var(--brand-lit);font-weight:600;font-size:.9rem}
+.prod .go svg{transition:transform .34s var(--ease)}
+.prod:hover .go svg{transform:translateX(5px)}
+.prod.soon{opacity:.58}
+.tag-soon{
+  position:absolute;top:26px;right:26px;font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--brass);border:1px solid var(--brass-dim);background:rgba(216,188,132,.07);
+  padding:5px 11px;border-radius:100px;font-weight:600;
+}
+
+/* рассрочка: список + фото */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(34px,5vw,72px);align-items:center}
+@media(max-width:940px){.split{grid-template-columns:1fr;gap:38px}}
+.split.rev>*:first-child{order:2}
+@media(max-width:940px){.split.rev>*:first-child{order:0}}
+.ticks{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:2px}
+.ticks li{display:flex;gap:15px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line)}
+.ticks li:last-child{border-bottom:0}
+.ticks .tk{
+  width:23px;height:23px;border-radius:50%;flex-shrink:0;margin-top:1px;
+  background:var(--brand-dim);color:var(--brand-lit);
+  display:grid;place-items:center;
+}
+.ticks .tt{display:block;font-weight:500;font-size:.98rem}
+.ticks .td{display:block;color:var(--tx-3);font-size:.86rem;margin-top:4px;line-height:1.5}
+.pic{border-radius:var(--r-card);overflow:hidden;position:relative;aspect-ratio:4/3.4;border:1px solid var(--line)}
+.pic img{width:100%;height:100%;object-fit:cover}
+.pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(5,16,13,.72))}
+
+/* лента сборов на главной */
+.feed3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:940px){.feed3{grid-template-columns:1fr}}
+
+/* партнёры */
+.parts{display:flex;flex-wrap:wrap;gap:12px}
+.part{
+  border:1px solid var(--line);border-radius:12px;padding:20px 26px;
+  font-weight:600;letter-spacing:.06em;font-size:.9rem;color:var(--tx-2);
+  background:var(--ink-2);transition:.3s var(--ease);flex:1 1 auto;text-align:center;min-width:150px;
+}
+.part:hover{color:var(--tx);border-color:var(--line-2)}
+.part small{display:block;font-weight:400;letter-spacing:0;font-size:.72rem;color:var(--tx-3);margin-top:5px}
+
+/* принципы */
+.prins{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden}
+@media(max-width:940px){.prins{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.prins{grid-template-columns:1fr}}
+.prin{background:var(--ink);padding:34px 28px;transition:background .35s var(--ease)}
+.prin:hover{background:var(--ink-2)}
+.prin .i{color:var(--brand-lit);width:26px;height:26px;margin-bottom:20px}
+.prin h4{font-size:1.02rem;font-weight:600;margin:0 0 9px;letter-spacing:-.02em}
+.prin p{color:var(--tx-2);font-size:.88rem;margin:0;line-height:1.58}
+
+/* финальный призыв */
+.finale{position:relative;overflow:hidden;border-radius:28px;border:1px solid var(--line);background:var(--ink-2);padding:clamp(46px,6.4vw,86px) clamp(28px,4vw,64px);text-align:center}
+.finale .g{position:absolute;inset:auto -10% -60% -10%;height:340px;background:radial-gradient(50% 100% at 50% 100%,rgba(7,188,142,.3),transparent 70%);filter:blur(50px);pointer-events:none}
+.finale .gi{position:absolute;inset:0;opacity:.05;pointer-events:none;-webkit-mask-image:radial-gradient(70% 90% at 50% 0%,#000,transparent);mask-image:radial-gradient(70% 90% at 50% 0%,#000,transparent)}
+.finale-cta{display:flex;gap:12px;justify-content:center;margin-top:36px;flex-wrap:wrap;position:relative}
+
+/* подвал */
+.ftr{border-top:1px solid var(--line);padding:64px 0 40px;margin-top:clamp(60px,8vw,110px)}
+.ftr-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.4fr;gap:40px}
+@media(max-width:860px){.ftr-grid{grid-template-columns:1fr 1fr;gap:34px}}
+.ftr h5{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--tx-3);margin:0 0 18px;font-weight:600}
+.ftr ul{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.ftr a{color:var(--tx-2);font-size:.9rem;transition:color .2s}
+.ftr a:hover{color:var(--brand-lit)}
+.ftr-grid>*{min-width:0}
+.ftr .legal{color:var(--tx-3);font-size:.8rem;line-height:1.7;overflow-wrap:anywhere}
+.ftr-btm{margin-top:48px;padding-top:26px;border-top:1px solid var(--line);display:flex;gap:26px;flex-wrap:wrap;color:var(--tx-3);font-size:.8rem}
+
+/* ============ СТРАНИЦА САДАКА ============ */
+.sd-hero{padding:clamp(46px,6vw,84px) 0 clamp(30px,3.4vw,44px)}
+.sd-hero .display{font-size:clamp(2.2rem,5vw,4rem)}
+.sd-total{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-top:26px}
+.sd-total .big{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(2.4rem,6vw,4.6rem);letter-spacing:-.05em;color:var(--brass);line-height:1}
+.sd-total .of{color:var(--tx-2);font-size:.98rem}
+
+.search{
+  display:flex;align-items:center;gap:13px;margin-top:34px;
+  background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:15px 19px;
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease);max-width:560px;
+}
+.search:focus-within{border-color:rgba(18,220,166,.5);box-shadow:0 0 0 4px rgba(7,188,142,.1)}
+.search input{background:none;border:0;outline:0;color:var(--tx);font:inherit;font-size:.98rem;width:100%}
+.search input::placeholder{color:var(--tx-3)}
+.search svg{color:var(--tx-3);flex-shrink:0}
+
+/* категории — с масками по краям, без обрезки */
+.cats-wrap{position:relative;margin-top:26px}
+.cats{
+  display:flex;gap:9px;overflow-x:auto;padding:4px 0 14px;
+  scrollbar-width:none;-ms-overflow-style:none;scroll-snap-type:x proximity;
+}
+.cats::-webkit-scrollbar{display:none}
+.cat{
+  flex:0 0 auto;scroll-snap-align:start;
+  padding:10px 18px;border-radius:100px;border:1px solid var(--line);
+  background:var(--ink-2);color:var(--tx-2);font-size:.89rem;font-weight:500;
+  transition:.25s var(--ease);white-space:nowrap;
+}
+.cat:hover{color:var(--tx);border-color:var(--line-2)}
+.cat[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#04120E;font-weight:600}
+.cats-wrap::after{
+  content:"";position:absolute;right:-1px;top:0;bottom:14px;width:70px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--ink) 72%);
+}
+
+/* сбор недели */
+.week{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:0;border:1px solid var(--line);
+  border-radius:24px;overflow:hidden;background:var(--ink-2);margin-bottom:26px;
+}
+@media(max-width:900px){.week{grid-template-columns:1fr}}
+.week-pic{position:relative;min-height:340px}
+.week-pic img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.week-badge{
+  position:absolute;top:20px;left:20px;z-index:2;display:flex;align-items:center;gap:8px;
+  background:rgba(5,16,13,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--brass-dim);color:var(--brass);
+  padding:8px 15px;border-radius:100px;font-size:.76rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+}
+.week-body{padding:clamp(26px,3.4vw,42px);display:flex;flex-direction:column}
+.week-body h3{font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(1.3rem,2.1vw,1.8rem);letter-spacing:-.035em;line-height:1.22;margin:0 0 16px}
+.week-org{display:flex;align-items:center;gap:9px;color:var(--tx-3);font-size:.83rem;margin-bottom:auto}
+
+/* карточка сбора */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:660px){.grid{grid-template-columns:1fr}}
+.card{
+  border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:var(--ink-2);
+  display:flex;flex-direction:column;
+  transition:transform .4s var(--ease),border-color .4s var(--ease),box-shadow .4s var(--ease);
+}
+.card:hover{transform:translateY(-5px);border-color:var(--line-2);box-shadow:0 26px 56px -26px rgba(0,0,0,.9)}
+.card-pic{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--ink-3)}
+.card-pic img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.card:hover .card-pic img{transform:scale(1.045)}
+.card-pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,16,13,.15),transparent 45%)}
+.card-cat{
+  position:absolute;top:13px;left:13px;z-index:2;
+  background:rgba(5,16,13,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--line-2);padding:6px 12px;border-radius:100px;font-size:.72rem;font-weight:600;color:var(--tx);
+}
+.card-doc{
+  position:absolute;top:13px;right:13px;z-index:2;display:flex;align-items:center;gap:6px;
+  background:rgba(216,188,132,.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--brass-dim);color:var(--brass);
+  padding:6px 11px;border-radius:100px;font-size:.7rem;font-weight:600;
+}
+.card-b{padding:20px 20px 22px;display:flex;flex-direction:column;flex:1}
+.card-b h4{
+  font-size:1rem;font-weight:600;line-height:1.4;margin:0 0 6px;letter-spacing:-.015em;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.8em;
+}
+.card-org{color:var(--tx-3);font-size:.79rem;margin:0 0 18px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+
+/* прогресс */
+.pr{margin-top:auto}
+.pr-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;gap:12px}
+.pr-cur{font-family:'Unbounded',sans-serif;font-weight:300;font-size:1.12rem;letter-spacing:-.03em;color:var(--brand-lit)}
+.pr-tgt{font-size:.82rem;color:var(--tx-3)}
+.pr-bar{height:6px;border-radius:100px;background:rgba(255,255,255,.08);overflow:hidden;position:relative}
+.pr-fill{
+  height:100%;border-radius:100px;width:0;
+  background:linear-gradient(90deg,var(--brand),var(--brand-lit));
+  transition:width 1.25s var(--ease-io);
+  box-shadow:0 0 14px rgba(18,220,166,.45);
+}
+.pr-meta{display:flex;justify-content:space-between;margin-top:10px;font-size:.76rem;color:var(--tx-3)}
+.pr-pct{color:var(--brass);font-weight:600}
+.card .btn{margin-top:18px}
+
+/* блок прозрачности */
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.trust{grid-template-columns:1fr}}
+.trust-c{border:1px solid var(--line);border-radius:var(--r-card);padding:30px 28px;background:var(--ink-2)}
+.trust-c .n{font-family:'Unbounded',sans-serif;font-weight:200;font-size:2.4rem;letter-spacing:-.05em;color:var(--brass);line-height:1;margin-bottom:16px}
+.trust-c h4{font-size:1.02rem;margin:0 0 8px;font-weight:600}
+.trust-c p{color:var(--tx-2);font-size:.88rem;margin:0;line-height:1.6}
+
+/* ---------- МОДАЛКА ПОЖЕРТВОВАНИЯ ---------- */
+.ov{
+  position:fixed;inset:0;z-index:200;display:grid;place-items:end center;
+  background:rgba(2,8,6,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;pointer-events:none;transition:opacity .32s var(--ease);
+}
+@media(min-width:720px){.ov{place-items:center}}
+.ov.on{opacity:1;pointer-events:auto}
+.sheet{
+  width:min(520px,100%);background:var(--ink-2);border:1px solid var(--line-2);
+  border-radius:24px 24px 0 0;padding:26px 24px 28px;
+  transform:translateY(28px) scale(.985);opacity:0;
+  transition:transform .42s var(--ease),opacity .32s var(--ease);
+  max-height:92vh;overflow-y:auto;
+}
+@media(min-width:720px){.sheet{border-radius:24px}}
+.ov.on .sheet{transform:translateY(0) scale(1);opacity:1}
+.sheet-hd{display:flex;align-items:flex-start;gap:14px;margin-bottom:22px}
+.sheet-hd img{width:54px;height:54px;border-radius:12px;object-fit:cover;flex-shrink:0}
+.sheet-hd h4{font-size:.98rem;font-weight:600;margin:0 0 5px;line-height:1.35}
+.sheet-hd .o{color:var(--tx-3);font-size:.78rem}
+.sheet-x{margin-left:auto;color:var(--tx-3);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;transition:.2s}
+.sheet-x:hover{background:rgba(255,255,255,.07);color:var(--tx)}
+
+/* переключатель разовая / ежемесячная */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:rgba(255,255,255,.05);border-radius:12px;padding:4px;margin-bottom:20px;position:relative}
+.seg button{padding:11px;border-radius:9px;font-size:.9rem;font-weight:600;color:var(--tx-2);transition:color .25s var(--ease);position:relative;z-index:2}
+.seg button[aria-pressed="true"]{color:#04120E}
+.seg-th{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:9px;background:var(--brand);z-index:1;transition:transform .42s var(--ease)}
+.seg[data-i="1"] .seg-th{transform:translateX(100%)}
+
+.amt-in{
+  display:flex;align-items:center;gap:10px;border:1px solid var(--line-2);border-radius:13px;
+  padding:16px 18px;margin-bottom:12px;transition:border-color .3s var(--ease),box-shadow .3s var(--ease);
+}
+.amt-in:focus-within{border-color:var(--brand-lit);box-shadow:0 0 0 4px rgba(7,188,142,.12)}
+.amt-in input{background:none;border:0;outline:0;color:var(--tx);font-family:'Unbounded',sans-serif;font-weight:300;font-size:1.55rem;letter-spacing:-.03em;width:100%}
+.amt-in input::placeholder{color:var(--tx-3)}
+.amt-in .cur{font-family:'Unbounded',sans-serif;font-weight:300;font-size:1.4rem;color:var(--tx-3)}
+.amts{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.amts button{
+  padding:10px 17px;border-radius:100px;border:1px solid var(--line);color:var(--tx-2);
+  font-size:.88rem;font-weight:600;transition:.22s var(--ease);
+}
+.amts button:hover{border-color:var(--line-2);color:var(--tx)}
+.amts button[aria-pressed="true"]{background:var(--brand-dim);border-color:var(--brand-lit);color:var(--brand-lit)}
+.amts .close-all{color:var(--brass);border-color:var(--brass-dim)}
+
+.niyyah{margin-bottom:20px}
+.niyyah label{display:block;font-size:.84rem;color:var(--tx-2);margin-bottom:9px;font-weight:500}
+.niyyah input{
+  width:100%;background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:11px;
+  padding:13px 16px;color:var(--tx);font:inherit;font-size:.92rem;outline:0;transition:.25s var(--ease);
+}
+.niyyah input:focus{border-color:var(--brand-lit);background:rgba(255,255,255,.055)}
+.niyyah input::placeholder{color:var(--tx-3)}
+.niyyah .hint{font-size:.76rem;color:var(--tx-3);margin-top:8px;line-height:1.5}
+
+.pay-note{display:flex;gap:9px;align-items:flex-start;margin-top:16px;color:var(--tx-3);font-size:.77rem;line-height:1.55}
+.pay-note svg{flex-shrink:0;margin-top:2px;color:var(--brand-lit)}
+
+/* ---------- появление при скролле ---------- */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv-d1{transition-delay:.07s}.rv-d2{transition-delay:.14s}.rv-d3{transition-delay:.21s}
+.rv-d4{transition-delay:.28s}.rv-d5{transition-delay:.35s}.rv-d6{transition-delay:.42s}
+
+/* пульт прототипа */
+.deck{
+  position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:300;
+  display:flex;align-items:center;gap:5px;padding:6px;
+  background:rgba(10,24,21,.86);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid var(--line-2);border-radius:100px;
+  box-shadow:0 22px 60px -18px rgba(0,0,0,.95);
+}
+.deck b{
+  font-family:'Unbounded',sans-serif;font-weight:400;font-size:.72rem;letter-spacing:.05em;
+  color:var(--tx-3);padding:0 14px 0 12px;white-space:nowrap;
+}
+.deck button{
+  padding:9px 18px;border-radius:100px;font-size:.86rem;font-weight:600;color:var(--tx-2);
+  transition:.28s var(--ease);white-space:nowrap;
+}
+.deck button:hover{color:var(--tx)}
+.deck button[aria-pressed="true"]{background:var(--brand);color:#04120E}
+@media(max-width:520px){.deck b{display:none}.deck{bottom:14px}}
+
+.page{display:none}
+.page.on{display:block;animation:pg .55s var(--ease)}
+@keyframes pg{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+
+/* --- мобильный ритм --- */
+@media(max-width:640px){
+  .hero{padding:26px 0 64px}
+  .hero-cta{gap:10px}
+  .hero-cta .btn{width:100%}
+  .sec-pad{padding:56px 0}
+  .display{font-size:clamp(2.05rem,8.4vw,2.6rem)}
+  h2.sec{font-size:clamp(1.65rem,6.6vw,2.1rem)}
+  .ha-stat{right:0;bottom:-6%;padding:14px 17px}
+  .ha-stat .n{font-size:1.34rem}
+  .week-pic{min-height:220px}
+  .sd-total .big{font-size:clamp(2rem,11vw,3rem)}
+  .finale{border-radius:20px}
+  .deck{bottom:12px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+
+<!-- ============ ГЛАВНАЯ ============ -->
+<div class="page on" id="p-home">
+
+  <header class="hdr" id="hdr">
+    <div class="shell hdr-in">
+      <div class="logo">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0c2.02 0 3.97.3 5.808.858A16.5 16.5 0 0 0 23.5 20a16.5 16.5 0 0 0 2.308 8.39A19.94 19.94 0 0 1 20 40Z" fill="#07BC8E"/>
+        </svg>
+        <span class="logo-tx">ШУКРУ</span>
+      </div>
+      <nav class="nav">
+        <a href="#">Рассрочка</a><a href="#">Садака</a><a href="#">Бизнесу</a><a href="#">О нас</a>
+      </nav>
+      <button class="btn btn-gho" style="padding:11px 20px;font-size:.88rem" data-go="sadaka">Сделать садаку</button>
+    </div>
+  </header>
+
+  <!-- герой -->
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <p class="eyebrow rv">Халяльные финансовые решения</p>
+        <h1 class="display rv rv-d1">Деньги, за которые<br><b>не стыдно</b> <em>перед&nbsp;Богом</em></h1>
+        <p class="lede rv rv-d2">Рассрочка без процентов и скрытых комиссий. Садака с полной отчётностью по каждому рублю. Один сервис — от покупки до пожертвования.</p>
+        <div class="chips rv rv-d3">
+          <span class="chip chip-brand">Соответствует нормам ислама</span>
+          <span class="chip">Без переплат</span>
+          <span class="chip">39 фондов-партнёров</span>
+        </div>
+        <div class="hero-cta rv rv-d4">
+          <button class="btn btn-pri btn-lg">Купить в рассрочку</button>
+          <button class="btn btn-gho btn-lg" data-go="sadaka">Сделать садаку</button>
+        </div>
+      </div>
+
+      <div class="hero-art rv rv-d2">
+        <div class="ha-glow"></div>
+        <div class="ha-frame ha-1"><img src="{{IMG:f01_h}}" alt="Московская Мемориальная мечеть"></div>
+        <div class="ha-frame ha-2"><img src="{{IMG:f19_h}}" alt="Молельная комната"></div>
+        <div class="ha-stat">
+          <div class="n" data-count="115840011" data-suffix=" ₽">0 ₽</div>
+          <div class="l">роздано через Шукру</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- цифры -->
+  <section class="figs">
+    <div class="shell"><div class="figs-in">
+      <div class="fig rv"><div class="n" data-count="112">0</div><div class="l">активных сборов<br>прямо сейчас</div></div>
+      <div class="fig rv rv-d1"><div class="n" data-count="39">0</div><div class="l">благотворительных<br>фондов-партнёров</div></div>
+      <div class="fig rv rv-d2"><div class="n"><span class="pc">0&thinsp;%</span></div><div class="l">комиссия сервиса<br>с пожертвования</div></div>
+      <div class="fig rv rv-d3"><div class="n" data-count="4">0</div><div class="l">платежа в рассрочке<br>за 3 месяца</div></div>
+    </div></div>
+  </section>
+
+  <!-- три продукта -->
+  <section class="sec-pad">
+    <div class="shell">
+      <div class="sec-head rv">
+        <p class="eyebrow">Что мы делаем</p>
+        <h2 class="sec">Польза <b>без скрытых условий</b></h2>
+        <p class="lede">Три сервиса на одном принципе: вы заранее знаете каждое условие, каждую сумму и каждого получателя.</p>
+      </div>
+      <div class="prods">
+        <article class="prod girih rv">
+          <svg class="prod-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="6" width="20" height="13" rx="2.5"/><path d="M2 10.5h20M6 15h4"/></svg>
+          <h3>Рассрочка</h3>
+          <p>Покупайте сразу, платите четырьмя равными частями за три месяца. Без процентов, пеней и навязанных страховок.</p>
+          <span class="go">Как это работает <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </article>
+        <article class="prod girih rv rv-d1">
+          <svg class="prod-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 20.5s-7.5-4.6-7.5-9.7A4.3 4.3 0 0 1 12 8.4a4.3 4.3 0 0 1 7.5 2.4c0 5.1-7.5 9.7-7.5 9.7Z"/></svg>
+          <h3>Садака</h3>
+          <p>112 проверенных сборов от 39 фондов. Смета, отчёт и получатель видны до того, как вы отдали рубль.</p>
+          <span class="go" data-go="sadaka">Смотреть сборы <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </article>
+        <article class="prod girih soon rv rv-d2">
+          <span class="tag-soon">Скоро</span>
+          <svg class="prod-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="2.5" width="16" height="19" rx="3"/><path d="M10 18.5h4"/></svg>
+          <h3>Платёжный метод</h3>
+          <p>Оплата, полностью соответствующая нормам ислама, — там же, где вы уже платите картой.</p>
+          <span class="go">Скоро</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- рассрочка -->
+  <section class="sec-pad" style="padding-top:0">
+    <div class="shell split">
+      <div>
+        <p class="eyebrow rv">Рассрочка</p>
+        <h2 class="sec rv rv-d1">Четыре платежа.<br><b>Ни рубля сверху.</b></h2>
+        <p class="lede rv rv-d2">Вы видите весь график до оформления. Сумма, которую вы вернёте, равна цене на витрине — всегда.</p>
+        <ul class="ticks rv rv-d3">
+          <li><span class="tk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span><span><span class="tt">Соответствует нормам ислама</span><span class="td">Модель одобрена шариатскими специалистами</span></span></li>
+          <li><span class="tk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span><span><span class="tt">Покупка делится на 4 части</span><span class="td">Первый платёж — при оформлении</span></span></li>
+          <li><span class="tk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span><span><span class="tt">Три месяца на оплату</span><span class="td">График фиксируется в момент покупки</span></span></li>
+          <li><span class="tk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12.5 9.5 18 20 6.5"/></svg></span><span><span class="tt">Без комиссий и допуслуг</span><span class="td">Ни страховок, ни подписок, ни пеней</span></span></li>
+        </ul>
+        <div class="hero-cta rv rv-d4" style="margin-top:34px"><button class="btn btn-pri">Где можно купить</button></div>
+      </div>
+      <div class="pic rv rv-d2"><img src="{{IMG:f12_h}}" alt="Строительство"></div>
+    </div>
+  </section>
+
+  <!-- садака: живая лента -->
+  <section class="sec-pad" style="padding-top:0">
+    <div class="shell">
+      <div class="sec-head rv" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;max-width:none">
+        <div style="max-width:60ch">
+          <p class="eyebrow">Садака</p>
+          <h2 class="sec">Видно, <b>куда ушёл каждый рубль</b></h2>
+          <p class="lede">У сбора есть фонд, смета и срок. Мы не берём комиссию — до получателя доходит вся сумма.</p>
+        </div>
+        <button class="btn btn-gho" data-go="sadaka" style="flex-shrink:0">Все 112 сборов</button>
+      </div>
+      <div class="feed3" id="home-feed"></div>
+    </div>
+  </section>
+
+  <!-- партнёры -->
+  <section class="sec-pad" style="padding-top:0">
+    <div class="shell">
+      <div class="sec-head rv"><p class="eyebrow">Нам доверяют</p><h2 class="sec">Магазины и <b>духовные управления</b></h2></div>
+      <div class="parts rv rv-d1">
+        <div class="part">ZARINA</div>
+        <div class="part">FRANCESCO MARCONI</div>
+        <div class="part">RIGINAL</div>
+        <div class="part">IslamApp</div>
+      </div>
+      <div class="parts rv rv-d2" style="margin-top:12px">
+        <div class="part">ДУМ<small>Московской области</small></div>
+        <div class="part">ДУМ<small>Дальнего Востока</small></div>
+        <div class="part">ДУМ<small>Поволжья</small></div>
+        <div class="part">БФ «ЗАКЯТ»<small>20 активных сборов</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- принципы -->
+  <section class="sec-pad" style="padding-top:0">
+    <div class="shell">
+      <div class="sec-head rv"><p class="eyebrow">Как мы работаем</p><h2 class="sec">Честность — <b>это процедура,</b><br>а не обещание</h2></div>
+      <div class="prins rv rv-d1">
+        <div class="prin"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><h4>Условия заранее</h4><p>Полный график и итоговая сумма — до подтверждения покупки, а не в мелком шрифте после.</p></div>
+        <div class="prin"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2.5 20 6v6c0 5-3.4 8.4-8 9.5-4.6-1.1-8-4.5-8-9.5V6l8-3.5Z"/></svg><h4>Безопасный платёж</h4><p>Платежи проходят через сертифицированного провайдера. Данные карты к нам не попадают.</p></div>
+        <div class="prin"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 3.5h9l5 5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5v5h5M8 13h8M8 17h5"/></svg><h4>Смета и отчёт</h4><p>По сборам публикуются сметы и итоговая отчётность. Проверить может любой, не только донор.</p></div>
+        <div class="prin"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-9A8.4 8.4 0 1 1 21 11.5Z"/></svg><h4>Живая поддержка</h4><p>Отвечаем на вопросы по конкретному сбору и по вашему графику платежей.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- финал -->
+  <section class="sec-pad" style="padding-top:0">
+    <div class="shell">
+      <div class="finale rv">
+        <div class="g"></div><div class="gi girih"></div>
+        <h2 class="sec" style="position:relative">Технологии должны работать<br><b>во благо людей</b></h2>
+        <p class="lede" style="margin-inline:auto;position:relative;text-align:center">Покупка без переплаты и помощь без посредников — в одном сервисе.</p>
+        <div class="finale-cta">
+          <button class="btn btn-pri btn-lg">Купить в рассрочку</button>
+          <button class="btn btn-gho btn-lg" data-go="sadaka">Сделать садаку</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ftr">
+    <div class="shell">
+      <div class="ftr-grid">
+        <div>
+          <div class="logo" style="margin-bottom:18px">
+            <svg class="logo-mark" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0c2.02 0 3.97.3 5.808.858A16.5 16.5 0 0 0 23.5 20a16.5 16.5 0 0 0 2.308 8.39A19.94 19.94 0 0 1 20 40Z" fill="#07BC8E"/></svg>
+            <span class="logo-tx">ШУКРУ</span>
+          </div>
+          <p class="legal">Простые и честные финансовые решения<br>для тех, кому важно как заработано и как потрачено.</p>
+        </div>
+        <div><h5>Сервисы</h5><ul><li><a href="#">Рассрочка</a></li><li><a href="#" data-go="sadaka">Садака</a></li><li><a href="#">Платёжный метод</a></li><li><a href="#">Покупателю</a></li></ul></div>
+        <div><h5>Компания</h5><ul><li><a href="#">О нас</a></li><li><a href="#">Бизнесу</a></li><li><a href="#">Партнёрам</a></li><li><a href="#">Поддержка</a></li></ul></div>
+        <div><h5>Контакты</h5><p class="legal">ООО «Шукру» (SHOOKRU)<br>ИНН 9726108681 · ОГРН 1257700560523<br>115191, Москва, пер. Духовской, д. 19, помещ. 141<br><a href="#" style="color:var(--brand-lit)">contactsupport@shookru.com</a></p></div>
+      </div>
+      <div class="ftr-btm">
+        <span>© 2026 Шукру</span><a href="#">Политика безопасности платежей</a><a href="#">Конфиденциальность</a><a href="#">Оферта</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ САДАКА ============ -->
+<div class="page" id="p-sadaka">
+
+  <header class="hdr">
+    <div class="shell hdr-in">
+      <div class="logo">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0c2.02 0 3.97.3 5.808.858A16.5 16.5 0 0 0 23.5 20a16.5 16.5 0 0 0 2.308 8.39A19.94 19.94 0 0 1 20 40Z" fill="#07BC8E"/></svg>
+        <span class="logo-tx">ШУКРУ</span><span class="logo-sub">Садака</span>
+      </div>
+      <nav class="nav"><a href="#" data-go="home">Рассрочка</a><a href="#">Сборы</a><a href="#">Отчёты</a><a href="#">Закят</a></nav>
+      <button class="btn btn-gho" style="padding:11px 20px;font-size:.88rem">Мои пожертвования</button>
+    </div>
+  </header>
+
+  <section class="sd-hero">
+    <div class="shell">
+      <p class="eyebrow rv">Садака · Закят · Вакф</p>
+      <h1 class="display rv rv-d1">Помощь, у которой<br><b>есть имя и смета</b></h1>
+      <div class="sd-total rv rv-d2">
+        <span class="big" data-count="115840011" data-suffix=" ₽">0 ₽</span>
+        <span class="of">собрано на <b style="color:var(--tx)">112 сборов</b> вместе с <b style="color:var(--tx)">39 фондами</b></span>
+      </div>
+      <div class="search rv rv-d3">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input placeholder="Мечеть, лечение, сирота, имя города…">
+      </div>
+      <div class="cats-wrap rv rv-d4">
+        <div class="cats">
+          <button class="cat" aria-pressed="true">Все сборы</button>
+          <button class="cat">Мечети · 16</button>
+          <button class="cat">Дети · 50</button>
+          <button class="cat">Здоровье · 59</button>
+          <button class="cat">Строительство · 13</button>
+          <button class="cat">Образование · 10</button>
+          <button class="cat">Закят</button>
+          <button class="cat">Вакф</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- сбор недели -->
+  <section style="padding-bottom:10px">
+    <div class="shell">
+      <div class="week rv">
+        <div class="week-pic">
+          <span class="week-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2Z"/></svg>
+            Сбор недели
+          </span>
+          <img src="{{IMG:f00_h}}" alt="Мечеть Хабаровска">
+        </div>
+        <div class="week-body">
+          <h3>Строительство мечети<br>города Хабаровска</h3>
+          <div class="week-org">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2.5 20 6v6c0 5-3.4 8.4-8 9.5-4.6-1.1-8-4.5-8-9.5V6l8-3.5Z"/></svg>
+            ДУМ Дальнего Востока
+          </div>
+          <div class="pr" style="margin-top:26px">
+            <div class="pr-top"><span class="pr-cur">12 028 943 ₽</span><span class="pr-tgt">из 15 000 000 ₽</span></div>
+            <div class="pr-bar"><div class="pr-fill" data-pct="80"></div></div>
+            <div class="pr-meta"><span class="pr-pct">80% собрано</span><span>осталось 2 971 057 ₽</span></div>
+          </div>
+          <button class="btn btn-pri btn-lg btn-block" style="margin-top:22px" data-donate="0">Помочь</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- сетка сборов -->
+  <section style="padding:26px 0 0">
+    <div class="shell"><div class="grid" id="sadaka-grid"></div></div>
+  </section>
+
+  <!-- прозрачность -->
+  <section class="sec-pad">
+    <div class="shell">
+      <div class="sec-head rv"><p class="eyebrow">Почему нам можно верить</p><h2 class="sec">Прозрачность — <b>это документы,</b><br>а не слова</h2></div>
+      <div class="trust">
+        <div class="trust-c rv"><div class="n">0 %</div><h4>Наша комиссия</h4><p>Мы не удерживаем ничего с пожертвования. До фонда доходит ровно та сумма, которую вы отправили.</p></div>
+        <div class="trust-c rv rv-d1"><div class="n">39</div><h4>Проверенных фондов</h4><p>Каждый сбор ведёт зарегистрированный фонд или духовное управление, а не частное лицо.</p></div>
+        <div class="trust-c rv rv-d2"><div class="n">PDF</div><h4>Сметы и отчёты</h4><p>По сборам публикуются сметы расходов и отчётность. Открыты всем, а не только жертвователям.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ftr" style="margin-top:0">
+    <div class="shell">
+      <div class="ftr-grid">
+        <div>
+          <div class="logo" style="margin-bottom:18px">
+            <svg class="logo-mark" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0c2.02 0 3.97.3 5.808.858A16.5 16.5 0 0 0 23.5 20a16.5 16.5 0 0 0 2.308 8.39A19.94 19.94 0 0 1 20 40Z" fill="#07BC8E"/></svg>
+            <span class="logo-tx">ШУКРУ</span><span class="logo-sub">Садака</span>
+          </div>
+          <p class="legal">Платформа пожертвований от ООО «Шукру».<br>Сборы ведут зарегистрированные фонды.</p>
+        </div>
+        <div><h5>Сборы</h5><ul><li><a href="#">Мечети</a></li><li><a href="#">Дети</a></li><li><a href="#">Здоровье</a></li><li><a href="#">Закят</a></li></ul></div>
+        <div><h5>Прозрачность</h5><ul><li><a href="#">Отчёты фондов</a></li><li><a href="#">Как мы проверяем</a></li><li><a href="#">Калькулятор закята</a></li><li><a href="#">Вопросы</a></li></ul></div>
+        <div><h5>Контакты</h5><p class="legal">ООО «Шукру» (SHOOKRU)<br>ИНН 9726108681<br><a href="#" style="color:var(--brand-lit)">contactsupport@shookru.com</a></p></div>
+      </div>
+      <div class="ftr-btm"><span>© 2026 Шукру</span><a href="#">Оферта</a><a href="#">Конфиденциальность</a></div>
+    </div>
+  </footer>
+</div>
+
+<!-- модалка -->
+<div class="ov" id="ov">
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Пожертвование">
+    <div class="sheet-hd">
+      <img id="sh-img" src="{{IMG:f00_c}}" alt="">
+      <div><h4 id="sh-name">Строительство мечети города Хабаровска</h4><div class="o" id="sh-org">ДУМ Дальнего Востока</div></div>
+      <button class="sheet-x" id="sh-x" aria-label="Закрыть"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+
+    <div class="seg" id="seg" data-i="0">
+      <div class="seg-th"></div>
+      <button aria-pressed="true">Разово</button>
+      <button aria-pressed="false">Каждый месяц</button>
+    </div>
+
+    <div class="amt-in"><input id="amt" value="1 000" inputmode="numeric"><span class="cur">₽</span></div>
+    <div class="amts" id="amts">
+      <button>500 ₽</button><button aria-pressed="true">1 000 ₽</button><button>3 000 ₽</button><button>10 000 ₽</button>
+      <button class="close-all">Закрыть сбор · 2 971 057 ₽</button>
+    </div>
+
+    <div class="niyyah">
+      <label for="niy">За кого эта садака <span style="color:var(--tx-3);font-weight:400">— необязательно</span></label>
+      <input id="niy" placeholder="Например: за упокой моего отца, Абдуллы">
+      <div class="hint">Садака джария — непрерывная милостыня. Имя увидит только фонд, публично оно не отображается.</div>
+    </div>
+
+    <button class="btn btn-pri btn-lg btn-block" id="sh-pay">Помочь · 1 000 ₽</button>
+
+    <div class="pay-note">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2.5 20 6v6c0 5-3.4 8.4-8 9.5-4.6-1.1-8-4.5-8-9.5V6l8-3.5Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg>
+      <span>Комиссия сервиса 0 %. Оплата через СБП или картой — данные карты к нам не попадают.</span>
+    </div>
+  </div>
+</div>
+
+<!-- пульт прототипа -->
+<div class="deck">
+  <b>Вариант 1 · Ночной михраб</b>
+  <button data-go="home" aria-pressed="true">Главная</button>
+  <button data-go="sadaka" aria-pressed="false">Садака</button>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ---- данные: реальные сборы с charity.shookru.com ---- */
+  const FUNDS = [
+    {img:'f00',cat:'Мечети',name:'Сбор на строительство мечети города Хабаровска',cur:12028943,tgt:15000000,org:'ДУМ Дальнего Востока',doc:false},
+    {img:'f05',cat:'Дети',name:'Возьми сироту на попечение — 2026',cur:17988245,tgt:30000000,org:'БФ «ЗАКЯТ»',doc:true},
+    {img:'f12',cat:'Строительство',name:'Строительство второго корпуса школы в Ульяновске',cur:20127148,tgt:60000000,org:'БФ «Чистое сердце»',doc:false},
+    {img:'f17',cat:'Закят',name:'Закят — 1447 (2026)',cur:14045160,tgt:30000000,org:'БФ «ЗАКЯТ»',doc:true},
+    {img:'f01',cat:'Мечети',name:'Московская Мемориальная мечеть 2026',cur:2874535,tgt:4500000,org:'БФ «ЗАКЯТ»',doc:false},
+    {img:'f08',cat:'Здоровье',name:'Продукты питания нуждающимся на 3 месяца',cur:3346179,tgt:5694525,org:'7 Колосьев',doc:true},
+    {img:'f09',cat:'Здоровье',name:'Отец с онкологией остался один с детьми',cur:935781,tgt:1000000,org:'БФ «Джудий»',doc:false},
+    {img:'f10',cat:'Здоровье',name:'У Нурай гидроцефалия — нужно лечение',cur:456892,tgt:710072,org:'БФ «Мир добра»',doc:false},
+    {img:'f13',cat:'Строительство',name:'Восстановление жилья после пожара в Нижнем Баскунчаке',cur:603923,tgt:1100000,org:'Саженцы добра',doc:false},
+    {img:'f16',cat:'Образование',name:'Поддержим исламский колледж 2026',cur:591079,tgt:1000000,org:'БФ «Чистое сердце»',doc:false},
+    {img:'f14',cat:'Строительство',name:'Ремонт детского лагеря «Муслим» в Саратовской области',cur:374755,tgt:550000,org:'Клуб добрых людей',doc:true},
+    {img:'f19',cat:'Вакф',name:'Содержание молельных комнат Москвы 2026',cur:1315209,tgt:4000000,org:'БФ «ЗАКЯТ»',doc:false}
+  ];
+
+  const IMG = {
+    f00:'{{IMG:f00_c}}', f01:'{{IMG:f01_c}}', f05:'{{IMG:f05_c}}', f08:'{{IMG:f08_c}}',
+    f09:'{{IMG:f09_c}}', f10:'{{IMG:f10_c}}', f12:'{{IMG:f12_c}}', f13:'{{IMG:f13_c}}',
+    f14:'{{IMG:f14_c}}', f16:'{{IMG:f16_c}}', f17:'{{IMG:f17_c}}', f19:'{{IMG:f19_c}}'
+  };
+
+  const rub = n => n.toLocaleString('ru-RU').replace(/,/g,' ') + ' ₽';
+
+  /* ---- один проход рендера, без перерисовок ---- */
+  function card(f, i){
+    const pct = Math.min(100, Math.round(f.cur / f.tgt * 100));
+    const el = document.createElement('article');
+    el.className = 'card rv';
+    el.style.transitionDelay = (i % 3) * 70 + 'ms';
+    el.innerHTML =
+      '<div class="card-pic"><span class="card-cat">' + f.cat + '</span>' +
+      (f.doc ? '<span class="card-doc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3.5h9l5 5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5v5h5"/></svg>Смета</span>' : '') +
+      '<img src="' + IMG[f.img] + '" alt="" loading="lazy"></div>' +
+      '<div class="card-b"><h4>' + f.name + '</h4><p class="card-org">' + f.org + '</p>' +
+      '<div class="pr"><div class="pr-top"><span class="pr-cur">' + rub(f.cur) + '</span>' +
+      '<span class="pr-tgt">из ' + rub(f.tgt) + '</span></div>' +
+      '<div class="pr-bar"><div class="pr-fill" data-pct="' + pct + '"></div></div>' +
+      '<div class="pr-meta"><span class="pr-pct">' + pct + '% собрано</span><span>осталось ' + rub(f.tgt - f.cur) + '</span></div></div>' +
+      '<button class="btn btn-pri btn-block" data-donate="' + i + '">Помочь</button></div>';
+    return el;
+  }
+
+  const grid = document.getElementById('sadaka-grid');
+  FUNDS.slice(1).forEach((f,i) => grid.appendChild(card(f, i + 1)));   // 0-й показан как «сбор недели»
+  const home = document.getElementById('home-feed');
+  [1,3,5].forEach((k,i) => home.appendChild(card(FUNDS[k], k)));
+
+  /* ---- появление при скролле + прогресс + счётчики ---- */
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('.pr-fill').forEach(b => {
+        setTimeout(() => b.style.width = b.dataset.pct + '%', 180);
+      });
+      if (e.target.dataset.count) count(e.target);
+      e.target.querySelectorAll('[data-count]').forEach(count);
+      io.unobserve(e.target);
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+
+  function count(el){
+    if (el._done) return; el._done = true;
+    const to = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now(), D = 1500;
+    (function tick(t){
+      const p = Math.min(1, (t - t0) / D);
+      const e = 1 - Math.pow(1 - p, 4);              // ease-out quart
+      el.textContent = Math.round(to * e).toLocaleString('ru-RU').replace(/,/g,' ') + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  const watch = () => document.querySelectorAll('.rv:not(.in)').forEach(el => io.observe(el));
+  watch();
+  // герой — сразу, без ожидания скролла
+  requestAnimationFrame(() => {
+    document.querySelectorAll('#p-home .hero .rv, #p-home .hero [data-count]').forEach(el => {
+      el.classList.add('in'); if (el.dataset.count) count(el);
+    });
+  });
+
+  /* ---- шапка при скролле ---- */
+  const hdr = document.getElementById('hdr');
+  addEventListener('scroll', () => hdr.classList.toggle('stuck', scrollY > 12), {passive:true});
+
+  /* ---- переключение страниц ---- */
+  function go(name){
+    document.querySelectorAll('.page').forEach(p => p.classList.toggle('on', p.id === 'p-' + name));
+    document.querySelectorAll('.deck button').forEach(b => b.setAttribute('aria-pressed', b.dataset.go === name));
+    scrollTo({top:0, behavior:'instant'});
+    watch();
+    requestAnimationFrame(() => {
+      document.querySelectorAll('#p-' + name + ' .rv').forEach((el,i) => {
+        if (el.getBoundingClientRect().top < innerHeight) {
+          el.classList.add('in');
+          el.querySelectorAll('[data-count]').forEach(count);
+          if (el.dataset.count) count(el);
+          el.querySelectorAll('.pr-fill').forEach(b => setTimeout(() => b.style.width = b.dataset.pct+'%', 200));
+        }
+      });
+    });
+  }
+  document.addEventListener('click', e => {
+    const g = e.target.closest('[data-go]');
+    if (g) { e.preventDefault(); go(g.dataset.go); }
+  });
+
+  /* ---- модалка ---- */
+  const ov = document.getElementById('ov');
+  document.addEventListener('click', e => {
+    const d = e.target.closest('[data-donate]');
+    if (d) {
+      const f = FUNDS[+d.dataset.donate];
+      document.getElementById('sh-img').src = IMG[f.img];
+      document.getElementById('sh-name').textContent = f.name;
+      document.getElementById('sh-org').textContent = f.org;
+      ov.querySelector('.close-all').textContent = 'Закрыть сбор · ' + rub(f.tgt - f.cur);
+      ov.classList.add('on');
+    }
+    if (e.target.closest('#sh-x') || e.target === ov) ov.classList.remove('on');
+  });
+  addEventListener('keydown', e => { if (e.key === 'Escape') ov.classList.remove('on'); });
+
+  /* ---- сегмент разово / ежемесячно ---- */
+  const seg = document.getElementById('seg');
+  seg.querySelectorAll('button').forEach((b,i) => b.addEventListener('click', () => {
+    seg.dataset.i = i;
+    seg.querySelectorAll('button').forEach((x,j) => x.setAttribute('aria-pressed', i === j));
+    syncPay();
+  }));
+
+  /* ---- быстрые суммы ---- */
+  const amts = document.getElementById('amts'), amt = document.getElementById('amt');
+  amts.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    amts.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    const n = (b.textContent.match(/[\d\s ]+/) || [''])[0].replace(/\D/g,'');
+    if (n) { amt.value = (+n).toLocaleString('ru-RU').replace(/,/g,' '); syncPay(); }
+  });
+  const pay = document.getElementById('sh-pay');
+  const syncPay = () => {
+    const v = +amt.value.replace(/\D/g,'') || 0;
+    const per = seg.dataset.i === '1' ? ' в месяц' : '';
+    pay.textContent = v ? 'Помочь · ' + rub(v) + per : 'Укажите сумму';
+  };
+  amt.addEventListener('input', syncPay);
+
+  /* ---- категории ---- */
+  document.querySelectorAll('.cats').forEach(c => c.addEventListener('click', e => {
+    const b = e.target.closest('.cat'); if (!b) return;
+    c.querySelectorAll('.cat').forEach(x => x.setAttribute('aria-pressed', x === b));
+  }));
+})();
+</script>
